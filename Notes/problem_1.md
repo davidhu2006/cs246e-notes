@@ -329,9 +329,8 @@ void echo (istream &f) {
     }
 }
 ```
-To compile:
-- `g++ -std=c++14 -Wall mycat.cc -o mycat`
-- OR `g++14 mycat.cc -o mycat`
+To compile (Assuming A0 has been done):
+- `g++20 -Wall mycat.cc -o mycat`
 - `./mycat`
 
 
