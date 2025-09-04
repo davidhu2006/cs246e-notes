@@ -88,7 +88,7 @@ _Can we write the `cat` program in C++?_
     - stdin/stdout: #include <iostream>
 
 ```C++
-#include <iostream>
+import <iostream>;
 
 int main() {
     int x, y;
@@ -145,7 +145,8 @@ char c;
 Try `cat` in C++
 
 ```C++
-#include <iostream>
+import <iostream>;
+import <ifstream>;
 
 using namespace std;  // Avoids having to say std::
 
