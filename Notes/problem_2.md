@@ -1,34 +1,34 @@
 [Input/Output <<](./problem_1.md) | [**Home**](../README.md) | [>> Linear Collections and Modularity](./problem_3.md) 
 # Problem 2: Separate compilation
-## **2021-09-14**
+## **2025-09-04**
 Put echo in its own module
-
-#### echo.h
-```C++
-void echo (istream &f);
-```
 
 #### echo.cc
 ```C++
-#include "echo.h"
+export module echo;
+import <iotream>;
+export oid echo (std::istream &f); // OR: export oid echo (std::istream &);
+```
 
-void echo(istream &f) {
-    // ...
-}
+#### echo-impl.cc
+```C++
+module echo;
+void echo (istream &f){...}
 ```
 
 #### main.cc
 ```C++
-#include <iostream>
-#include <fstream>
-#include "echo.h"
+import <iostream>;
+import <fstream>;
+import echo;
+
+using namespace std;
 
 int main(...) {
     echo(cin);
     //...
     echo(f);
 }
-
 ```
 
 **Compiling separately:** 
