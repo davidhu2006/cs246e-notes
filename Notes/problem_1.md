@@ -146,7 +146,7 @@ Try `cat` in C++
 
 ```C++
 import <iostream>;
-import <ifstream>;
+import <fstream>;
 
 using namespace std;  // Avoids having to say std::
 
