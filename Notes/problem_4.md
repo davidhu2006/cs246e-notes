@@ -54,26 +54,40 @@ Use abstraction to solve the problem
 
 - Another philosophy here is, C++ is hard, and we are going to do all the hard work so that our users (in this case, not the application users but rather the developer that uses our code) have a pleasant time coding in C++.
 
-#### vector.h
+#### vector.cc
 
 ```C++
-#ifndef VECTOR_H
-#define VECTOR_H
+export module vector;
 
 namespace CS246E {
-    struct vector {
+    export struct vector {
         int *theVector;
         size_t size, cap;
     };
 
-    vector make_vector();
-    size_t size(const vector &v);
-    int &itemAt(const vector &v, size_t i);
-    void push_back(const vector &v, int x);
-    void pop_back(const vector&v);
-    void dispose(vector &v);
+    export vector make_vector();
+    export size_t size(const vector &);
+    export int &itemAt(const vector &v, size_t i);
+    export void push_back(vector &v, int x);
+    export void pop_back(vector&v);
+    export void dispose(vector &v);
 }
-#endif
+```
+
+#### vector-impl.cc
+
+```C++
+module vector;
+void increaseCap(CS246E::vector &v) {
+    if (v.size==v.cap) {
+        int *newVec = new int[2*v.cap];
+        for (size_t i = 0; i < v.cap; ++i)
+            newVec[i]=v.theVector[i];
+        delete [] v.theVector;
+        v.theVector=newVec;
+        v.cap*=2;
+    }
+}
 ```
 
 #### vector.cc
