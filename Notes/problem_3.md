@@ -18,6 +18,17 @@ export struct Node{
 export size_t size(Node *n);
 ```
 
+#### Node-impl.cc
+
+```C++
+module node;
+size_t size (Node *n) {
+    size_t count = 0;
+    for (Node *cur = n; cur; cur = cur -> next) ++count;
+    return count;
+}
+```
+
 #### main.cc
 
 **Note:** Do NOT use `malloc`, `free`, and `NULL` in C++, instead use `new`, `delete`, and `nullptr`
