@@ -39,13 +39,17 @@ int main(...) {
 
 Correct:
 
+`g++20h iostream fstream` -> creates `gcm.cache`
+
 `g++20 -c echo.cc` -> creates `echo.o`
+
+`g++20 -c echo-impl.cc` -> create `echo-impl.o`
 
 `g++20 -c main.cc` -> creates `main.o` (these are object files, binary code but imcomplete program)
 
 `-c` indicates **only compile, don't link**
 
-`g++20 echo.o main.o -o mycat` (linker)
+`g++20 *.o -o main` (linker)
 
 Advantage:
 - Only have to recompile the parts you change, then relink (no so expensive)
