@@ -32,20 +32,20 @@ int main(...) {
 ```
 
 **Compiling separately:** 
-- `g++14 echo.cc` (fails)
+- `g++20 echo.cc` (fails)
     - linking error: no main
-- `g++14 main.cc` (fails)
+- `g++20 main.cc` (fails)
     - linking error: no echo
 
 Correct:
 
-`g++14 -c echo.cc` -> creates `echo.o`
+`g++20 -c echo.cc` -> creates `echo.o`
 
-`g++14 -c main.cc` -> creates `main.o` (these are object files, binary code but imcomplete program)
+`g++20 -c main.cc` -> creates `main.o` (these are object files, binary code but imcomplete program)
 
 `-c` indicates **only compile, don't link**
 
-`g++14 echo.o main.o -o mycat` (linker)
+`g++20 echo.o main.o -o mycat` (linker)
 
 Advantage:
 - Only have to recompile the parts you change, then relink (no so expensive)
