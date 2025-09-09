@@ -7,7 +7,7 @@ Put echo in its own module
 ```C++
 export module echo;
 import <iotream>;
-export oid echo (std::istream &f); // OR: export oid echo (std::istream &);
+export void echo (std::istream &f); // OR: export void echo (std::istream &);
 ```
 
 #### echo-impl.cc
