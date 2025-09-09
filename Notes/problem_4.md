@@ -1,7 +1,7 @@
 [Linear Collections and Modularity <<](./problem_3.md) | [**Home**](../README.md) | [>> The Copier is broken!](./problem_5.md)
 
 # Problem 4: Linear Collections and Memory Management
-## **2021-09-16**
+## **2025-09-09**
 **Readings:** 7.7.1, 14, 16.2 
 
 **Arrays**
@@ -46,7 +46,7 @@ On the heap:
 - If you have an array of items, and u need to deallocate that array, you need to know how many items there were / how big the memory we need to get rid of. Therefore, when you declare that array, you need to store how much memory you used.
 - But in special case of allocating 1 object, not an array, then why should I pay for that extra cost of saying "hey this is an object of size 1". So instead, C++ said "I know how big one object is" and so the compiler has the option if you are allocating one object, to not store that extra size information becuase its known. Therefore, the ordinary delete would not looking for sizes because it knows it was deleting one thing. Hence, having a separate form of delete for single object allows for potential optimization where you don't have to worry about checking sizes.
 
-**Problem:** what if our array isn't big enough (when deleting)?
+**Problem:** What if our array isn't big enough (when deleting)?
 
 Note: no `realloc` for `new`/`delete` 
 

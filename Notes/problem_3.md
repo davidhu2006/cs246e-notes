@@ -183,37 +183,30 @@ namespace Tree {
 }
 ```
 
-#### list.cc
+#### list-impl.cc
 
 ```C++
-#include "list.h"
-
-// one style
-size_t List::size(Node *n) {  // List::Node *n is not necessary b/c the function is in the namespace
-    // ...
+module list;
+size_t List::size (Node *n) {
+    ...
 }
 ```
 
-#### tree.cc
+#### tree-impl.cc
 
 ```C++
-#include "tree.h"
-
-// another style
-namespace Tree {
-    size_t size(Node *n) { 
-        // ...
-    }
+module tree;
+size_t Tree::size (Node *n) {
+    ...
 }
 ```
-
 Now we can do in our main file:
 
 #### main.cc
 
 ```C++
-#include "list.h"
-#include "tree.h"
+import list;
+import tree;
 
 int main()
 {
@@ -227,7 +220,7 @@ int main()
 **Namespaces are open**
 - It means, anyone can add items to any namespace
 
-#### some\_other\_file.h
+#### some\_other\_file.cc
 
 ```C++
 namespace List {
