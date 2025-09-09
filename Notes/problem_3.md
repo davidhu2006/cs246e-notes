@@ -36,7 +36,7 @@ size_t size (Node *n) {
 - In C, `NULL` is not a thing, just a constant defined as 0 in standard libraries. In C++, `nullptr` is an actual type that represents null.
 
 ```C++
-#include "node.h"
+import node;
 
 int main() {
     Node *n = new Node;
