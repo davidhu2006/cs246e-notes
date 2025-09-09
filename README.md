@@ -2,7 +2,7 @@
 
 _Course information at the bottom of the page._
 
-These notes cover CS 246E in Fall 2021. The original notes from Fall 2017 can be found [here](https://github.com/clayton-halim/cs246e-notes), by Clayton Halim
+These notes cover CS 246E in Fall 2025. The original notes from Fall 2021 can be found [here](https://github.com/quanpham0805/cs246e-notes), by Quan Pham. The original notes from Fall 2017 can be found [here](https://github.com/clayton-halim/cs246e-notes), by Clayton Halim
 
 The textbook used is [Stroustrup, Bjarne. The C++ Programming Language, 4th edition, Addison Wesley](http://www.stroustrup.com/4th.html), reading sections are referenced to this book. 
 
