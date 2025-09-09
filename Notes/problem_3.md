@@ -1,35 +1,21 @@
 [Separate compilation <<](./problem_2.md) | [**Home**](../README.md) | [>> Linear Collections and Memory Management](./problem_4.md) 
 
 # Problem 3: Linear Collections and Modularity
-## **2021-09-14**
+## **2025-09-09**
 
 ### **Linked lists and arrays**
 
 **Linked List**
 
-#### node.h
-
-```C++
-#include <cstddef>  // Provides size_t
-
-struct Node {
-    int data;
-    Node *next;
-};
-
-size_t size(Node *n); // size_t is a type that can guarantee to hold any amount of memory without limit.
-```
-
 #### node.cc
 
 ```C++
-#include "node.h"
-
-size_t size(Node *n) {
-    size_t count = 0;
-    for (Node *cur = n; cur ; cur = cur->next) ++ count;
-    return count;
-}
+export module node;
+export struct Node{
+    int data;
+    Node *next;
+};
+export size_t size(Node *n);
 ```
 
 #### main.cc
