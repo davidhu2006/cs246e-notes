@@ -47,7 +47,7 @@ int main() {
     Node *n3 = new Node {4, new Node {5, nullptr}};
 
     delete n;
-    delete n2; // Memory leak!! Delete n2->next first
+    delete n2; 
 
     while (n3) {
         Node *tmp = n3;
@@ -56,18 +56,7 @@ int main() {
     }
 }
 ```
-
-## **2021-09-16**
-
-What would happen if we do
-
-```C++
-#include "node.h"
-#include "node.h"
-```
-
-Won't compile, struct defined twice
-
+<!-- 
 How do we prevent this?
 
 ### **C Preprocessor**
@@ -154,7 +143,7 @@ Fixing the double include problem: "include guard"
 
 **NEVER**
 - Compile `.h` files
-- Include `.cc` files
+- Include `.cc` files -->
 
 Now what if someone writes:
 
@@ -163,34 +152,34 @@ struct Node {
    int data;
    Node *left, *right; 
 };
-size_t size(Node *n); // size of tree
+size_t size(Node *); // size of tree
 ```
 
 You can't use both in the same program
 
 **Solution:** namespaces
 
-#### list.h
+#### list.cc
 
 ```C++
 namespace List {
-    struct Node {
+    export struct Node {
         int data;
         Node *next;
     };
-    size_t size(Node *n); 
+    export size_t size(Node *); 
 }
 ```
 
-#### tree.h
+#### tree.cc
 
 ```C++
 namespace Tree {
-    struct Node {
+    export struct Node {
         int data;
         Node *left, *right;
     };
-    size_t size(Node *n); 
+    export size_t size(Node *); 
 }
 ```
 
