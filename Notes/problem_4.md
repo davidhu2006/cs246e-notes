@@ -79,72 +79,44 @@ namespace CS246E {
 ```C++
 module vector;
 void increaseCap(CS246E::vector &v) {
-    if (v.size==v.cap) {
+    if(v.size==v.cap) {
         int *newVec = new int[2*v.cap];
         for (size_t i = 0; i < v.cap; ++i)
-            newVec[i]=v.theVector[i];
+            newVec[i] = v.theVector[i];
         delete [] v.theVector;
-        v.theVector=newVec;
+        v.theVector = newVec;
         v.cap*=2;
     }
 }
-```
-
-#### vector.cc
-
-```C++
-#include "vector.h"
-
-namespace {  // Anonymous namespace makes the function only visible to file (same as static in C)
-    void increaseCap(CS246E::vector &v) {
-        if (v.size == v.cap) {
-            int *newVec = new int[2 * v.cap];
-
-            for (size_t i = 0; i < v.cap; ++i) {
-                newVec[i] = v.theVector[i]
-            }
-
-            delete[] v.theVector;
-            v.theVector = newVec;
-            v.cap *= 2;
-        }
+namespace CS246E {
+    vector make_vector() {
+        vector v {new int [1], 0, 1};
+        return v;
     }
-}
-
-CS246E::vector CS246E::make_vector() {
-    vector v {new int[1], 0, 1};
-    return v;
-}
-
-size_t CS246E::size(const vector &v) {
-    return v.size;
-}
-
-int &CS246E::itemAt(const vector &v, size_t i) {
-    return v.theVector[i];
-}
-
-void CS246E::push_back(vector &v, int n) {
-    increaseCap(v);
-    v.theVector[v.size ++] = n;
-}
-
-void CS246E::pop_back(vector &v) {
-    if (v.size > 0) {
-        -- v.size;
+    size_t size(const vector &v) {
+        return v.size;
     }
-}
-
-void CS246E::dispose(vector &v) {
-    delete[] v.theVector;
+    int &itemAt(const vector &v, size_t i) {
+        return v.theVector[i];
+    }
+    void push_back(vector &v,int n) {
+        increaseCap(v);
+        v.theVector[v.size++] = n;
+    }
+    void pop_back(vector &v) {
+        if(v.size > 0)
+            --v.size;
+    }
+    void dispose(vector &v) {
+        delete [] v.theVector;
+    }
 }
 ```
 
 #### main.cc
 
 ```C++
-#include "vector.h"
-
+import vector;
 using CS246E::vector;  // only allows you to use vector without CS246E::
 
 int main() {
@@ -157,11 +129,13 @@ int main() {
 }
 ```
 
-**Question:** why don't we have to say `CS246E::push_back`, `CS246E::itemAt`, `CS246E::dispose?`
+## **2025-09-10**
+
+**Question:** Why don't we have to say `CS246E::push_back`, `CS246E::itemAt`, `CS246E::dispose?`
 
 **Answer:** Argument-Dependent Lookup (ADL) - aka Koenig lookup
 
-- If the type of a function f's argument belongs to a `namespace n`, then C++ will search the `namespace n`, as well as the current scope, for a function matching f
+- If the type of a function f's argument belongs to a `namespace n`, then C++ will search the `namespace n`, as well as the current scope, for a function matching f.
 
 This is the reason why we can say
 ```C++
@@ -193,18 +167,18 @@ struct Student {
 - Instances of a class - called **objects**
 
 ```C++
-Student bob {90, 70, 80};
-cout << bob.grade();
+Student s {60, 70, 80};
+cout << s.grade();
 ```
 
-`bob` is an object, `.grade()` is a method.
+`s` is an object, `.grade()` is a method.
 
-What do `assns`, `mt`, `final`, mean with `grade() {...}`?
+What do `assns`, `mt`, `final`, mean within `grade() {...}`?
 
-- Fields of the _current_ object, the receiver of the method call (ie. `bob`)
+- Fields of the _current_ object, the receiver of the method call (ie. `s`)
 
-Formally, methods differ from functions in that methods take an implicit parameter called `this`, that is  a pointer to the receiver object.
-- `bob.grade()` gets `this == &bob`
+Formally, methods differ from functions in that methods take an implicit parameter called `this`, that is a pointer to the receiver object.
+- `s.grade()` gets `this == &s`
 
 Could have written (equivalent):
 
@@ -223,23 +197,20 @@ Student::float grade() {
 }
 ```
 
-## 2021/09/21
-
 ### **Initializing objects**
 ```C
-Student bob {90, 70, 80}
+Student s {60, 70, 80};
 ```
 
 - C style struct initialization
 - Field by field
-- ok, but limited
+- OK, but limited
 
 Better initializtion method: a constructor
 
 ```C++
 struct Student {
     int assns, mt, final;
-
     Student(int assns, int mt, int final) {
         this->assns = assns;
         this->mt = mt;
@@ -248,25 +219,25 @@ struct Student {
 };
 
 // Now we can call
-Student bob {90, 70, 80};
-// Now calls the constructor with args 90, 70, 80
+Student s {70, 80, 90};
+// Now calls the constructor with args 70, 80, 90
 ```
 
 **Note:** once the constructor is defined, the C style field-by-field initialization is no longer available
 
 **Equiv:** 
 ```C++ 
-Student bob = Student{90, 70, 80};
+Student s = Student{70, 80, 90};
 ```
 
 Unified initialization using braces:
 ```C++
-int x{5}; // this is possible and is similar to int x = 5;
+int x {5}; // this is possible and is similar to int x = 5;
 ```
 
 **Heap:**
 ```C++
-Student *p = new Student{90, 80, 70};
+Student *p = new Student{70, 80, 90};
 delete p;
 ```
 **Advantages of constructors:**
