@@ -190,24 +190,29 @@ Values in C++:
         /       \       /       \
     lvalues     xvalues      grvalues
 
-glvalue-Denotes a storage location. "Generalized lvalue", includes lvalues and xvalues
+glvalue
+- Denotes a storage location. 
+- "Generalized lvalue"
+- includes lvalues and xvalues
 
-lvalues-can be on the left hand side of an assignment
--vars(including const), fields references, array lookups, pointer dereferences, etc.
+lvalues
+- can be on the left hand side of an assignment
+- vars(including const), fields references, array lookups, pointer dereferences, etc.
 
-rvalues can't be on the left hand side of an assignment.
--Address cannot be taken
--Including xvalues and prvalues
+rvalues
+- Can't be on the left hand side of an assignment.
+- Address cannot be taken
+- Including xvalues and prvalues
 
 prvalues-"Pure rvalues"
--Do not denote storage locations
--e.g Literals, arithmetics, exprs, function calls with non-ref return types
--Most rvalues you would come up with are prvalues
+- Do not denote storage locations
+- Literals, arithmetics, exprs, function calls with non-ref return types
+- Most rvalues you would come up with are prvalues
 
 xvalues-"expiring values"
--Considered both glvalues and rvalues
--Can't take its address, but it does denote a storage location
--lvalues constructions on rvalues
+- Considered both glvalues and rvalues
+- Can't take its address, but it does denote a storage location
+- lvalues constructions on rvalues
 
 Ex.
 ```C++
