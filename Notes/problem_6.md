@@ -186,9 +186,9 @@ If you really need all of the constructors to run:
 
 Values in C++:
 
-    glvalues         rvalues
-    /       \       /       \
- lvalues     xvalues      grvalues
+        glvalues         rvalues
+        /       \       /       \
+    lvalues     xvalues      grvalues
 
 glvalue-Denotes a storage location. "Generalized lvalue", includes lvalues and xvalues
 
