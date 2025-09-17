@@ -1,28 +1,23 @@
 [The Copier is broken! <<](./problem_5.md) | [**Home**](../README.md) | [>> I want a constant vector](./problem_7.md)
-
-# Problem 6: Moves
-## **2021-09-23**
-
-Consider:
-
+# Problem 6:Thievery
 ```C++
-Node plusOne(Node n) { // pass-by-value = copy => copy ctor (half truth)
-    for (Node *p = &n; p; p = p->next) {
-        ++p->data;
-    }
-    return n;
+Node oddsOrEvens(){
+    Node odds {1, newNode {3, newNode {5, nullptr}}};
+    Node evens {2, newNode {4, newNode {6, nullptr}}};
+    char c;
+    cin>>c;
+    if(c=='0') return evens;
+    else return odds;
 }
 
-Node n {1, new Node {2, nullptr}};
-Node m = plusOne(n);
+Node n=oddsOrEvens();//copy ctor
+//What is other here? ref to what?
 ```
+-Temporary object created to hold the result of oddsOrEvens
+-Other is a ref to this temporary
+-Copy ctor deep-copies the data from this temporary
 
-In this case, "other" is a reference to the *temporary object* created to hold the result of plusOne.
-
-- "Other" is a reference to this temporary
-- Copy constructor deep-copies the data from this temporary
-
-**But** the temporary is just going to be thrown out anyway, as soon as the statement `Node m = plusOne(n)` is done
+**But** the temporary is just going to be thrown out anyway, as soon as the statement oddsOrEvens is done
 
 It's wasteful to deep copy the temp, why not steal the data instead? - saves the cost of a copy
 We need to be able to tell whether "other" is a reference to a temporary object, or a standalone object
@@ -37,7 +32,7 @@ We need to be able to tell whether "other" is a reference to a temporary object,
 ```C++
 struct Node {
     // ...
-    Node(Node &&other): data{other.data}, next{other.next} {
+    Node(Node &&other): data{other.data}, next{other.next} {//steal other's data
         other.next = nullptr; // making sure other does not have anything left
     }
 };
@@ -45,7 +40,7 @@ struct Node {
 Similarly:
 ```C++
 Node m;
-m = plusOne(n);  // assignment from temporary
+m = oddsOrEvens();  // assignment from temporary
 ```
 
 Why can't we just swap memory instead of copying field-by-field?
@@ -154,6 +149,13 @@ For C++17, many elision opportunities become mandatory.
 
 Ex.
 ```C++
+Student s=Student{60,70,80}//no copy/move constructor
+is equivalent to 
+Student s{60,70,80}
+```
+
+
+```C++
 vector v = vector{};    // Formally a basic construction and a copy/move construction
                         // vector{} is a basic constructor
                         // Here though, the compiler is *required* to elide the copy/move
@@ -172,12 +174,81 @@ Result of `makeAVector()` written directly into the param, there is no copy/move
 
 This is allowed, even if dropping ctor calls would change the behaviour of the program (ex. if the constructors print something).
 
+So does that mean copy/move constructors never run?
+
+No, they do run, just not as often.
+
 If you really need all of the constructors to run:
 
 `g++14 -fno_elide_constructors ...`
 
 **Note:** while possible, can slow down your program considerably
 
+Values in C++:
+
+    glvalues         rvalues
+    /       \       /       \
+ lvalues     xvalues      grvalues
+
+glvalue-Denotes a storage location. "Generalized lvalue", includes lvalues and xvalues
+
+lvalues-can be on the left hand side of an assignment
+-vars(including const), fields references, array lookups, pointer dereferences, etc.
+
+rvalues can't be on the left hand side of an assignment.
+-Address cannot be taken
+-Including xvalues and prvalues
+
+prvalues-"Pure rvalues"
+-Do not denote storage locations
+-e.g Literals, arithmetics, exprs, function calls with non-ref return types
+-Most rvalues you would come up with are prvalues
+
+xvalues-"expiring values"
+-Considered both glvalues and rvalues
+-Can't take its address, but it does denote a storage location
+-lvalues constructions on rvalues
+
+Ex.
+```C++
+Student{-,-,-,-}.name
+
+Student{-,-,-,-} is prvalue, the whole thing is an xvalue
+```
+
+The rule  is, prvalues don't generate temporaries. Only xvalues generate temporaries, 
+so only xvalues get moved from and only xvalues and lvalues get copied from
+
+Before C++17, copy/move elision was optional. Now it is required since prvalues don't generate temporaries.
+Are these cases where elision is still optional?
+
+Consider
+```C++
+vector f(){
+    return makeAVector();
+}
+```
+Now consider
+```C++
+vector g(){
+    vector v=makeAVector();
+    return v;//lvalue, not a prvalue
+}
+```
+Could we be elided? Yes, compiler could create v in the callers stack frame when the result would go. But v is not a prvalue, so this is not required
+
+Consider
+```C++
+vector h(){
+    vector v=makeAVector();
+    vector w=makeAVector();
+    if(____) return v;
+    else return w;
+}
+```
+Which one will be put in the caller's frame to avoid a move? There is no way to know, so elision may not be possible.
+
+In this situation-named Return Value Optimization, elision is allowed but not required.
 - Copying is an expensive procedure, the compiler skips these constructors as an optimization
 
 In summary: Rule of 5 (Big 5)

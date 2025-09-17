@@ -1,7 +1,7 @@
 [Linear Collections and Memory Management << ](./problem_4.md) | [**Home**](../README.md) | [>> Moves](./problem_6.md) 
 
 # Problem 5: The Copier is broken!
-## **2025-09-10**
+## **2025-09-16**
 
 ```C++
 Vector v;
@@ -43,7 +43,7 @@ struct Node {  // Vector: exercise (easy), we doing for Node
 };
 ```
 
-## **2021-09-23**
+
 However, we are not done with copy. Say, we want to assign rather than creating a new object:
 ```C++
 Vector v;
@@ -111,4 +111,4 @@ struct Node {
 };
 ```
 ---
-[Linear Collections and Memory Management << ](./problem_4.md) | [**Home**](../README.md) | [>> Moves](./problem_6.md) 
+[Linear Collections and Memory Management << ](./problem_4.md) | [**Home**](../README.md) | [>> Thievery](./problem_6.md) 
