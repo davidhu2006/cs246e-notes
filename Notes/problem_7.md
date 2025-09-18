@@ -1,7 +1,7 @@
-[Thievery << ](./problem_6.md) | [**Home**](../README.md) | [>> Tampering](./problem_8.md) 
+[Thievery << ](./problem_6.md) | [**Home**](../README.md) | [>> Keep it a secret to everybody](./problem_8.md) 
 
-# Problem 7: I want a constant vector
-## **2021-09-23**
+# Problem 7: I don't like change
+## **2025-09-18**
 
 Say we want to print a vector:
 
@@ -32,7 +32,6 @@ int &vector:itemAt(size_t i) const { return theVector[i]; }
 
 Now the loop will work.
 
-## **2021-09-28**
 
 BUT:
 
@@ -42,7 +41,7 @@ void f(const vector &v) {
 }
 ```
 - `v` is a const object - cannot change `n`, `cap`, `theVector` (ptr)
-- You can changed items pointed to by `theVector`
+- You can change items pointed to by `theVector`
 
 Can we fix this?
 
@@ -97,4 +96,4 @@ ostream &operator<<(ostream &out, const vector &v) {
 ```
 
 ---
-[Thievery << ](./problem_6.md) | [**Home**](../README.md) | [>> Tampering](./problem_8.md) 
+[Thievery << ](./problem_6.md) | [**Home**](../README.md) | [>> Keep it a secret to everybody](./problem_8.md) 

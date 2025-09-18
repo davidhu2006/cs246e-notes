@@ -1,4 +1,4 @@
-[Tampering << ](./problem_8.md) | [**Home**](../README.md) | [>> Staying in bounds](./problem_10.md) 
+[Keep it a secret to everybody << ](./problem_8.md) | [**Home**](../README.md) | [>> Staying in bounds](./problem_10.md) 
 
 # Problem 9: Efficient Iteration
 ## **2021-09-28**
@@ -267,4 +267,4 @@ iterator end() {return theVector + n;}
 ```
 
 ---
-[Tampering << ](./problem_8.md) | [**Home**](../README.md) | [>> Staying in bounds](./problem_10.md) 
+[Keep it a secret to everybody << ](./problem_8.md) | [**Home**](../README.md) | [>> Staying in bounds](./problem_10.md) 

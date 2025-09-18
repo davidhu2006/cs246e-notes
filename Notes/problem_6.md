@@ -1,4 +1,4 @@
-[The Copier is broken! <<](./problem_5.md) | [**Home**](../README.md) | [>> I want a constant vector](./problem_7.md)
+[The Copier is broken! <<](./problem_5.md) | [**Home**](../README.md) | [>> I don't like change](./problem_7.md)
 # Problem 6:Thievery
 ```C++
 Node oddsOrEvens(){
@@ -260,12 +260,14 @@ In summary: Rule of 5 (Big 5)
 
 - If you need to customize any one of
   1. Copy constructor
-  1. Copy assignment
-  1. Destructor
-  1. Move constructor
-  1. Move assignment
+  2. Copy assignment
+  3. Destructor
+  4. Move constructor
+  5. Move assignment
 
 then you usually need to customize all 5.
 
+From now on, we will assume that vector/Node have the big 5 defined.
+
 ---
-[The Copier is broken! <<](./problem_5.md) | [**Home**](../README.md) | [>> I want a constant vector](./problem_7.md)
+[The Copier is broken! <<](./problem_5.md) | [**Home**](../README.md) | [>> I don't like change](./problem_7.md)

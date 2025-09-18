@@ -1,7 +1,6 @@
-[I want a constant vector <<](./problem_7.md) | [**Home**](../README.md) | [>> Efficient Iteration](./problem_9.md)
+[I don't like change <<](./problem_7.md) | [**Home**](../README.md) | [>> Efficient Iteration](./problem_9.md)
 
-# Problem 8: Tampering
-## **2021-09-28**
+# Problem 8: Keep it a secret to everybody
 
 ```C++
 vector v;
@@ -29,7 +28,7 @@ ADT's provide and rely on invariants
 - **Vectors**
     - Rely on the invariant that elements `O`, ..., `cap-1` denote valid locations
 
-Cannot gaurantee invariants if the user can interfere, makes the program hard to reason behind
+Cannot guarantee invariants if the user can interfere, makes the program hard to reason about
 
 **Fix:** _encapsulation_, seal objects into "black boxes"
 
@@ -46,32 +45,35 @@ struct vector {
 };
 ```
 
-If no access specifer is given: default is public for `struct`
+If no access specifier is given: default is public for `struct`
 
 In a previous lecture:
 
-#### vector.cc
+#### vector-impl.cc
 ```C++
-#include "vector.h"
+module vector;
 namespace {
     void increaseCap(vector &v) {...}   // Doesn't work anymore! Doesn't have access to v's internals
 }
 ```
 Try again:
 
-#### vector.h
+#### vector.cc
 ```C++
-struct vector {
-    private:
-        size_t ...
-        ...
-    public:
-        vector();
-        ...
-
-    private:
-        void increaseCap(); // Now a private method
-};
+export module vector;
+namespace cs246e{
+    export struct vector {
+        private:
+            int *theVector;
+            size_t n,cap;
+        public:
+            vector();
+            ...
+    
+        private:
+            void increaseCap(); // Now a private method
+    };
+}
 ```
 NOW
 
@@ -92,7 +94,7 @@ namespace CS246E {
 
 _vector.cc_
 ```C++
-class vector {
+export class vector {
         size_t n, cap;
         int *theVector;
     public:
@@ -109,7 +111,7 @@ A similar problem with linked lists:
 
 ```C++
 Node n {3, nullptr};    // Stack allocated
-Node m {4, &n}; // m's dtor will try to delete &n (undefined, pointer pointed to a memory allocated on stack)
+Node m {4, &n}; // m's destructor will try to delete &n (undefined, pointer pointed to a memory allocated on stack)
 ```
 
 There was an **invariant** that - `next` is `nullptr` or was allocated by `new`, we don't want the user to use it wrong.
@@ -124,7 +126,7 @@ class list {
         Node *next; // ... methods
     };
 
-    Node *theList;
+    Node *theList=mullptr;
     
     public:
         list(): theList{nullptr} { }
@@ -163,4 +165,4 @@ Client cannot manipulate the list directly
 - Invariant is maintained
 
 ---
-[I want a constant vector <<](./problem_7.md) | [**Home**](../README.md) | [>> Efficient Iteration](./problem_9.md)
+[I don't like change <<](./problem_7.md) | [**Home**](../README.md) | [>> Efficient Iteration](./problem_9.md)
