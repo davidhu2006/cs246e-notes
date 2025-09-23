@@ -1,4 +1,4 @@
-[I don't like change <<](./problem_7.md) | [**Home**](../README.md) | [>> Efficient Iteration](./problem_9.md)
+[I don't like change <<](./problem_7.md) | [**Home**](../README.md) | [>> Walk Faster!](./problem_9.md)
 
 # Problem 8: Keep it a secret to everybody
 
@@ -127,37 +127,38 @@ class list {
     };
 
     Node *theList=mullptr;
-    
-    public:
-        list(): theList{nullptr} { }
-        // we can deconstruct this iteratively: run a loop inside the list class, this is actually possible now
-        ~list(): { delete theList; }
-        size_t size() const;
+    size_t len=0;
+    list(): theList{nullptr} { }
+    // we can deconstruct this iteratively: run a loop inside the list class, this is actually possible now
+    ~list(): { delete theList; }
+    size_t size(){return len;}
 
-        void push_front(int n) {
-            theList = new Node{n, theList};
+    void push_front(int n) {
+        theList = new Node{n, theList};
+        ++len;
+    }
+
+    void pop_font() {
+        if (theList) {
+            Node *tmp = theList;
+            theList = theList->next;
+            tmp->next = nullptr;
+            delete tmp;
+            --len;
         }
+    }
 
-        void pop_font() {
-            if (theList) {
-                Node *tmp = theList;
-                theList = theList->next;
-                tmp->next = nullptr;
-                delete tmp;
-            }
-        }
+    const int &operator[](size_t i) const {
+        Node *cur = theList;
+        for (size_t j = 0; j < i; ++j) cur=cur->next;
+        return cur->data;
+    }
 
-        const int &operator[](size_t i) const {
-            Node *cur = theList;
-            for (size_t j = 0; j < i && cur; ++j, cur=cur->next);
-            return curr->data;
-        }
-
-        int &operator[](size_t i) {
-            Node *cur = theList;
-            for (size_t j = 0; j < i && cur; ++j, cur=cur->next);
-            return curr->data;
-        }   
+    int &operator[](size_t i) {
+        Node *cur = theList;
+        for (size_t j = 0; j < i && cur; ++j, cur=cur->next);
+        return cur->data;
+    }   
 };
 ```
 Client cannot manipulate the list directly
@@ -165,4 +166,4 @@ Client cannot manipulate the list directly
 - Invariant is maintained
 
 ---
-[I don't like change <<](./problem_7.md) | [**Home**](../README.md) | [>> Efficient Iteration](./problem_9.md)
+[I don't like change <<](./problem_7.md) | [**Home**](../README.md) | [>> Walk Faster!](./problem_9.md)

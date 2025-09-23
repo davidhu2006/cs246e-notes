@@ -1,4 +1,4 @@
-[Efficient Iteration <<](./problem_9.md) | [**Home**](../README.md) | [>> I want a vector of chars](./problem_11.md)
+[Walk Faster! <<](./problem_9.md) | [**Home**](../README.md) | [>> I want a vector of chars](./problem_11.md)
 
 # Problem 10: Staying in Bounds
 ## **2021-09-30**
@@ -187,4 +187,4 @@ void f() {
 Also note that you can throw _any value_, not just objects
 
 ---
-[Efficient Iteration <<](./problem_9.md) | [**Home**](../README.md) | [>> I want a vector of chars](./problem_11.md)
+[Walk Faster! <<](./problem_9.md) | [**Home**](../README.md) | [>> I want a vector of chars](./problem_11.md)

@@ -1,7 +1,7 @@
 [Keep it a secret to everybody << ](./problem_8.md) | [**Home**](../README.md) | [>> Staying in bounds](./problem_10.md) 
 
-# Problem 9: Efficient Iteration
-## **2021-09-28**
+# Problem 9: Walk Faster
+## **2025-09-23**
 
 Consider the two implementations Vector and List
 ```C++
@@ -71,10 +71,10 @@ class list {
 list l;
 // ...
 for (list::iterator it = l.begin(); it != l.end(); ++it) {
-    std::cout << *it << '\n';
+    std::cout << *it <<' ';
 }
 ```
-## **2021-09-30**
+
 **Q:** Should `list::begin` and `list::end` be `const` methods?
 **Consider:**
 

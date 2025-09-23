@@ -1,4 +1,4 @@
-[Linear Collections and Memory Management << ](./problem_4.md) | [**Home**](../README.md) | [>> Moves](./problem_6.md) 
+[Linear Collections and Memory Management << ](./problem_4.md) | [**Home**](../README.md) | [>> Thievery](./problem_6.md) 
 
 # Problem 5: The Copier is broken!
 ## **2025-09-16**
