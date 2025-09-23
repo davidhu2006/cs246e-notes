@@ -13,7 +13,7 @@ The textbook used is [Stroustrup, Bjarne. The C++ Programming Language, 4th edit
 1. [Linear Collections and Modularity](Notes/problem_3.md)
 1. [Linear Collections and Memory Management](Notes/problem_4.md)
 1. [The Copier is broken!](Notes/problem_5.md)
-1. [Moves](Notes/problem_6.md)
+1. [Thievery](Notes/problem_6.md)
 1. [I want a constant vector](Notes/problem_7.md)
 1. [Tampering](Notes/problem_8.md)
 1. [Efficient Iteration](Notes/problem_9.md) 
