@@ -17,7 +17,7 @@ The textbook used is [Stroustrup, Bjarne. The C++ Programming Language, 4th edit
 1. [I don't want change](Notes/problem_7.md)
 1. [Keep it a secret to everybody](Notes/problem_8.md)
 1. [Walk Faster](Notes/problem_9.md) 
-1. [Staying in bounds](Notes/problem_10.md)
+1. [Now you've gone too far](Notes/problem_10.md)
 1. [I want a vector of chars](Notes/problem_11.md)
 1. [Better Initialization](Notes/problem_12.md)
 1. [I want a vector of Posns](Notes/problem_13.md)

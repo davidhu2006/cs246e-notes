@@ -1,7 +1,7 @@
 [Walk Faster! <<](./problem_9.md) | [**Home**](../README.md) | [>> I want a vector of chars](./problem_11.md)
 
-# Problem 10: Staying in Bounds
-## **2021-09-30**
+# Problem 10: Now you've gone too far
+## **2025-09-24**
 
 ```C++
 Vector v;
@@ -52,8 +52,7 @@ class vector {
 1. Do nothing
     ```C++
     vector v;
-    v.push_back(0);
-    v.at(1) // The exception will crash the program
+    v.at(0); // The exception will crash the program
     ```
 1. Catch it
     ```C++

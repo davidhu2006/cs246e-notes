@@ -1,4 +1,4 @@
-[Staying in bounds << ](./problem_10.md) | [**Home**](../README.md) | [>> Better Initialization](./problem_12.md) 
+[Now you've gone too far << ](./problem_10.md) | [**Home**](../README.md) | [>> Better Initialization](./problem_12.md) 
 
 # Problem 11: I want a vector of chars
 ## **2021-10-05**
@@ -56,4 +56,4 @@ int main() {
     - Can also write bodies inline
 
 ---
-[Staying in bounds << ](./problem_10.md) | [**Home**](../README.md) | [>> Better Initialization](./problem_12.md) 
+[Now you've gone too far << ](./problem_10.md) | [**Home**](../README.md) | [>> Better Initialization](./problem_12.md) 
