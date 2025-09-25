@@ -1,4 +1,4 @@
-[Walk Faster! <<](./problem_9.md) | [**Home**](../README.md) | [>> I want a vector of chars](./problem_11.md)
+[Walk Faster! <<](./problem_9.md) | [**Home**](../README.md) | [>> But I want a vector of chars](./problem_11.md)
 
 # Problem 10: Now you've gone too far
 ## **2025-09-24**
@@ -48,6 +48,7 @@ class vector {
 };
 ```
 
+## **2025-09-25**
 - Client's options
 1. Do nothing
     ```C++
@@ -58,8 +59,7 @@ class vector {
     ```C++
     try {
         vector v;
-        v.push_back(0);
-        v.at(1);
+        v.at(0);
     } catch (range_error &r) {  // r is the thrown object
     // usually catch by ref, save the cost of copying.
         // Do something
@@ -69,8 +69,7 @@ class vector {
     ```C++
     int f() {
         vector v;
-        v.push_back(0);
-        v.at(1);
+        v.at(0);
     }
     int g() {
         try{
@@ -80,7 +79,7 @@ class vector {
         }
     }
     ```
-    - Exception will propagate through the callchain until a handler is found.
+    - Exception will propagate through the call chain until a handler is found.
     - Called **unwinding** the stack
     - If no handler is found, program aborts (`std::terminate` gets called)
     - Control resumes after the catch block (problem code is not retried)
@@ -115,8 +114,8 @@ class D {
 D d;
 ```
 
-- At (\*) the `D` object is not fully constucted, so `~D()` will not run on d
-- But `a` and `b` are fully constucted so their destructors will run
+- At (\*) the `D` object is not fully constructed, so `~D()` will not run on d
+- But `a` and `b` are fully constructed so their destructors will run
 - So if a constructor wants to throw, it must clean itself
 
 ```C++
@@ -135,13 +134,11 @@ class D {
 } 
 ```
 
-## **2021-10-05**
 What happens if a destructor throws? 
 > Trouble
 - By default, program aborts immediately
 - `std::terminate`
 - If you really want a throwing destructor, tag it with `noexcept(false)` 
-- But watch out, this is usually a good news.
 
 ```C++
 class myexception{};
@@ -186,4 +183,4 @@ void f() {
 Also note that you can throw _any value_, not just objects
 
 ---
-[Walk Faster! <<](./problem_9.md) | [**Home**](../README.md) | [>> I want a vector of chars](./problem_11.md)
+[Walk Faster! <<](./problem_9.md) | [**Home**](../README.md) | [>> But I want a vector of chars](./problem_11.md)

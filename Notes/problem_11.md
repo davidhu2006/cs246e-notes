@@ -1,16 +1,17 @@
-[Now you've gone too far << ](./problem_10.md) | [**Home**](../README.md) | [>> Better Initialization](./problem_12.md) 
+[Now you've gone too far << ](./problem_10.md) | [**Home**](../README.md) | [>> Where do I even start](./problem_12.md) 
 
-# Problem 11: I want a vector of chars
-## **2021-10-05**
+# Problem 11: But I want a vector of chars
+## **2025-09-25**
 
 Start over? No
 
 Introduce a major abstraction mechanism, **templates**
 - Generalize overtypes
 
-#### Vector.h
+#### Vector.cc
 
 ```C++
+export module vector;
 namespace CS246E {
     template<typename T> class Vector {
             size_t n, cap;
@@ -21,7 +22,7 @@ namespace CS246E {
             // ...
             void push_back(T n);
             T &operator[](size_t i);
-            const T &operator[] const(size_t)
+            const T &operator[](size_t) const;
 
             using iterator = T*;
             using const_iterator = const T*;
@@ -34,16 +35,14 @@ namespace CS246E {
 }
 ```
 
-**Note:** For templates, the implementation goes in `.h` file. Because the compiler is gonna need those information to replace the type `T`.
-
 _main.cc_
 
 ```C++
 int main() {
-    Vector<int> v;  // Vector of ints
+    CS246E::Vector<int> v;  // Vector of ints
     v.push_back(1);
     ...
-    Vector<char> w; // Vector of chars
+    CS246E::Vector<char> w; // Vector of chars
     v.push_back('a');
     ...
 }
@@ -52,8 +51,8 @@ int main() {
 - **Semantics:**
     - The first time the compile encounters `Vector<int>`, it creates a version of the vector code where `int` replaces `T` and compiles that new class
     - Can't do that unless it has all the details about the class
-    - So implementation must be available in `.h`
+    - So implementation needs to be available, i.e. in the interface file
     - Can also write bodies inline
 
 ---
-[Now you've gone too far << ](./problem_10.md) | [**Home**](../README.md) | [>> Better Initialization](./problem_12.md) 
+[Now you've gone too far << ](./problem_10.md) | [**Home**](../README.md) | [>> Where do I even start](./problem_12.md) 

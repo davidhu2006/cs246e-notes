@@ -1,4 +1,4 @@
-[Better Initialization << ](./problem_12.md) | [**Home**](../README.md) | [>> Less Copying](./problem_14.md) 
+[Where do I even start << ](./problem_12.md) | [**Home**](../README.md) | [>> Less Copying](./problem_14.md) 
 
 # Problem 13: I want a vector of posns
 ## **2021-10-05**
@@ -84,4 +84,4 @@ template<typename T> class vector {
 ```
 
 ---
-[Better Initialization << ](./problem_12.md) | [**Home**](../README.md) | [>> Less Copying](./problem_14.md) 
+[Where do I even start << ](./problem_12.md) | [**Home**](../README.md) | [>> Less Copying](./problem_14.md) 
