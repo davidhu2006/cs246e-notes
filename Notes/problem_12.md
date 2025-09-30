@@ -1,4 +1,4 @@
-[But I want a vector of chars <<](./problem_11.md) | [**Home**](../README.md) | [>> I want a vector of Posns](./problem_13.md)
+[But I want a vector of chars <<](./problem_11.md) | [**Home**](../README.md) | [>> Actually... I want a vector of Posns](./problem_13.md)
 
 # Problem 12: Where do I even start
 ## **2025-09-25**
@@ -62,8 +62,9 @@ vector<int> v;  // Empty
 vector<int> v{5};   // 5
 vector<int> v{3, 5};    // 3, 5
 ```
+## **2025-09-30**
 
-Default constructors take precedence over initializer lists, which take precedence over other constructors
+Default constructors take priority over initializer lists, which take priority over other constructors
 
 To get the other constructor to run: **round bracket initialization**
 
@@ -80,8 +81,8 @@ Also note:
 - Do not try to modify their contents
 - Do not use them as standalone data structures
 - Only one allocation in vector, not several
-- No doubling + reallocating
-- If general, if you know how big your vector will be, you can save reallocation cost by requesting space up front
+- No doubling + reallocating as there was with a sequence of push_backs
+- If general, if you know how big your vector will be, you can save reallocation cost by requesting the memory up front
 
 ```C++
 template<typename T> class vector {
@@ -110,4 +111,4 @@ v.push_back(__);    // Can do 10 push_backs without needing to reallocate
 ```
 
 ---
-[But I want a vector of chars <<](./problem_11.md) | [**Home**](../README.md) | [>> I want a vector of Posns](./problem_13.md)
+[But I want a vector of chars <<](./problem_11.md) | [**Home**](../README.md) | [>> Actually... I want a vector of Posns](./problem_13.md)

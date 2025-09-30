@@ -20,7 +20,7 @@ The textbook used is [Stroustrup, Bjarne. The C++ Programming Language, 4th edit
 1. [Now you've gone too far](Notes/problem_10.md)
 1. [But I want a vector of chars](Notes/problem_11.md)
 1. [Where do I even start](Notes/problem_12.md)
-1. [I want a vector of Posns](Notes/problem_13.md)
+1. [Actually... I want a vector of Posns](Notes/problem_13.md)
 1. [Less Copying!](Notes/problem_14.md)
 1. [Memory management is hard!](Notes/problem_15.md)
 1. [Is vector exception safe?](Notes/problem_16.md)

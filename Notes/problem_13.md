@@ -1,7 +1,7 @@
 [Where do I even start << ](./problem_12.md) | [**Home**](../README.md) | [>> Less Copying](./problem_14.md) 
 
-# Problem 13: I want a vector of posns
-## **2021-10-05**
+# Problem 13: Actually... I want a vector of Posns
+## **2025-09-30**
 
 ```C++
 struct Posn {
@@ -23,7 +23,8 @@ template<typename T> vector<T>::vector(): n{0}, cap{1}, theVector{new T[cap]} {}
 - C++ always calls a constructor when creating an object.
 - Which constructor gets called? The default constructor
 - But `Posn` doesn't have one
-- Creating a default constructor just to make the compiler happy is not always good. Sometimes we need to make the struct not initialized. And now, essentially what we just did was to propagate this problem from compile time to run time, and this is not good.
+- Creating a default constructor just to make the compiler happy is not always good. Sometimes we need to make the struct not initialized. 
+- And now, essentially what we just did was to propagate this problem from compile time to run time, and this is not good.
 
 Need to separate memory allocation (Object creation step 1) from initialization (steps 2-4) (refer to [p4](./problem_4.md))
 
@@ -33,7 +34,7 @@ Need to separate memory allocation (Object creation step 1) from initialization 
 - Returns `void*`
 
 **Note:** 
-- In C, `void*` implicity converts to any pointer type
+- In C, `void*` implicitly converts to any pointer type
 - In C++, the conversion requires a cast
 
 **Initialization:** "Placement new"
@@ -60,8 +61,7 @@ template<typename T> class vector {
 
         void pop_back() {
             if (n) {
-                theVector[n-1].~T() // Must explicitly invoke destructor
-                --n;
+                theVector[--n].~T() // Must explicitly invoke destructor
             }
         }
         void destroy_items() {
@@ -72,7 +72,7 @@ template<typename T> class vector {
         void clear() {
             // doing --n here is kinda sus but I guess it's fine because we don't use n anymore
             while (n) {
-                theVector[-- n].~T();
+                pop_back;
             }
         }
         ~vector() {

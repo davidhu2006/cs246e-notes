@@ -1,7 +1,7 @@
-[I want a vector of Posns <<](./problem_13.md) | [**Home**](../README.md) | [>> Memory management is hard](./problem_15.md)
+[Actually... I want a vector of Posns <<](./problem_13.md) | [**Home**](../README.md) | [>> Memory management is hard](./problem_15.md)
 
 # Problem 14: Less copying!
-## **2021-10-07**
+## **2025-09-30**
 
 We need to make this work for all type `T` efficiently.
 
@@ -70,8 +70,8 @@ Vector<Posn> v;
 v.push_back(Posn {3, 4});
 ```
 
-1. Constructor call to create the Posn object
-1. Copy or move constructor into the vector (depending on whether Posn has a move constructor)
+1. Constructor call to create the Posn object in push_back's frame(elision)
+1. Copy or move construction into the vector (depending on whether Posn has a move constructor)
 1. Destructor call on the temporary object
 
 Having ctor and then dtor, they cancel out, sounds like a waste.
@@ -196,4 +196,4 @@ template<typename... Args> void emplace_back(Args&&... args) {
 Now `args` is passed to `T`'s ctor with rvalue/lvalue information preserved. This technique is called **perfect forwarding**.
 
 ---
-[I want a vector of Posns <<](./problem_13.md) | [**Home**](../README.md) | [>> Memory management is hard](./problem_15.md)
+[Actually... I want a vector of Posns <<](./problem_13.md) | [**Home**](../README.md) | [>> Memory management is hard](./problem_15.md)
