@@ -80,6 +80,8 @@ Could eliminate (1) and (3) if we could get vector to create the object instead 
 - Pass constructor args to the vector and not the actual object
 - How? Soon, but first...
 
+## **2025-10-01**
+
 ### **A note on template functions**
 
 Consider: `std::swap` seems to work on all types
@@ -88,7 +90,7 @@ Consider: `std::swap` seems to work on all types
 ```C++
 // Without std::move, it would be good c++98, not so good c++11
 template<typename T> void swap(T &a, T &b) {
-    T tmp{std::move(a)}
+    T tmp(std::move(a));
     a = std::move(b);
     b = std::move(tmp);
 }
@@ -101,6 +103,8 @@ swap(x, y)  // Equiv swap<int>(x, y);
 ```
 
 Don't have to say `swap<int>`, C++ can deduce this from the types of `x` and `y`
+
+As with template classes, the type argument `<int>` can be omitted if c++ can deduce it from the types of the args
 
 In general, only have to say `f<T>(...)` if `T` cannot be deduced from the args
 
