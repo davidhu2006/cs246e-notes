@@ -199,5 +199,18 @@ template<typename... Args> void emplace_back(Args&&... args) {
 
 Now `args` is passed to `T`'s ctor with rvalue/lvalue information preserved. This technique is called **perfect forwarding**.
 
+## **2025-10-02**
+
+***Additional note on Template functions -shorthand- auto notation***
+
+e.g.
+```C++
+auto max(auto x, auto y){...} 
+//is equivalent to
+template <typename T, typename U> auto max(T x, U y){...}
+```
+Just remember when you see function with a parameter type of auto, that function is a template function.
+
+
 ---
 [Actually... I want a vector of Posns <<](./problem_13.md) | [**Home**](../README.md) | [>> Memory management is hard](./problem_15.md)

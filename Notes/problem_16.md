@@ -1,7 +1,7 @@
 [Memory management is hard <<](./problem_15.md) | [**Home**](../README.md) | [>> Insert/Remove in the middle](./problem_17.md)
 
 # Problem 16: Is vector exception safe?
-## **2021-10-19**
+## **2025-10-07**
 
 Consider:
 
@@ -9,17 +9,18 @@ Consider:
 template<typename T> class vector {
     size_t n, cap;
     T *theVector;
-public:
-    vector(size_t n, const T &x): 
-        n{n}, cap{n}, 
-        theVector{static_cast<T*>(operator new(n * sizeof(T)))} {
-            for (size_t i = 0; i < n; ++i)
-                // copy constructor for T, could throw - then what?
-                new(theVector + i) T(x);
-        }
+    public:
+        vector(size_t n, const T &x): 
+            n{n}, cap{n}, 
+            theVector{static_cast<T*>(operator new(n * sizeof(T)))} {
+                for (size_t i = 0; i < n; ++i)
+                    // copy constructor for T, could throw - then what?
+                    new(theVector + i) T(x);
+            }
 };
 ```
-- `malloc` vs `operator new`: `malloc` returns a `nullptr` if it fails, `operator new` fails it would throw an exception, but then it means we wouldn't have done anything, nothing has been allocated (strong guarantee), no problem.
+- `malloc` vs `operator new`: `malloc` returns a `nullptr` if it fails, `operator new` fails it would throw an exception, 
+but then it means we wouldn't have done anything, nothing has been allocated (strong guarantee), no problem.
 - Other place we can get an exception is in the copy ctor of `T`.
 - Partially constructed vector - destructor will not run
     - Broken invariant, does not contain `n` valid objects
@@ -31,23 +32,27 @@ template<typename T> class vector {
     T *theVector;
 public:
     vector(size_t n, const T &x): 
-        n{n}, cap{n}, 
+        n{0}, cap{n}, 
         theVector{static_cast<T*>(operator new(n * sizeof(T)))} {
-            size_t progress = 0;
             try {
-                for (size_t i = 0; i < n; ++i) {
-                    new(theVector + i) T(x);
-                    ++progress;
+                while(this->n < cap) {
+                    new(theVector + this->n) T(x);
+                    ++this->n;
                 }
             } catch(...) {  // ... supresses all type checking (accept whatever)
-                for (size_t i = 0; i < progress; ++i) theVector[i].~T();
+                while(this->n >0){
+                    theVector[this->n].~T();
+                    --this->n;
+                }
                 operator delete(theVector);
                 throw;  // rethrow the exception, we don't need to refer to the exception to throw it
             }
         }
 };
 ``` 
-- `...` in the `catch` block is literally `...` and not Brad wants us to fill in the blank. In languages like Java, there is a base class for all errors, but this is not the case for C++ as it can throw literally anything. One way we can *possibly* catch all is to catch `std::exception`, but again not everything follows this.
+- `...` in the `catch` block is literally `...` and not Brad wants us to fill in the blank. 
+- In languages like Java, there is a base class for all errors, but this is not the case for C++ as it can throw literally anything. 
+- One way we can *possibly* catch all is to catch `std::exception`, but again not everything follows this.
 - Be careful about throwing `std::string`, because it actually throws `char*` and not `string`.
 
 
@@ -57,26 +62,25 @@ template<typename T> void uninitialized_fill(T *start, T *finish, const T &x) {
     T *p;
     try {
         for (p = start; p != finish; ++p) {
-            new(static_cast<void *>(p)) T(x);
+            new(p) T(x);
         }
     } catch(...) {
-        for (T *q = start; q != p; ++q) q->~T();
+        for (T *q = p; q != start; --q) (q-1)->~T();
         throw;
     }
 }
 ```
-
 This is an all or nothing function (strong guarantee).
+
 
 ```C++
 template<typename T> class vector {
-        size_t n, cap;
-        T *theVector;
+    size_t n, cap;
+    T *theVector;
     public:
         vector(size_t n, const T &x): n{n}, cap{n}, theVector{static_cast<T*>(operator new(n * sizeof(T)))} {
-            size_t progress = 0;
             try {
-                uninitialized_fill(theVector, theVector + n; x);
+                uninitialized_fill(theVector, theVector + n, x);
             } catch (...) {
                 operator delete(theVector);
                 throw;
@@ -91,22 +95,25 @@ Can clean this up using RAII on the array:
 ```C++
 // Just to manage the array, nothing to do with the content, just the array itself
 template<typename T> struct vector_base {
-    size_t n, cap;
+    size_t cap;
     T *v;
     vector_base(size_t n): 
-        n{n}, cap{n == 0 ? 1 : n}, v{static_cast<T*>(operator new(cap * sizeof(T)))} {}
+        cap{n}, v{static_cast<T*>(operator new(cap * sizeof(T)))} {}
     ~vector_base() { operator delete(v); }
 };
 
 template<typename T> class vector {
-        vector_base<T> vb;  // Cleaned up implicitly when vector is destroyed
+    vector_base<T> vb;  // Cleaned up implicitly when vector is destroyed
+    size_t n;
     public:
-        vector(size_t n, const T &x): vb{n} {
-            uninitialized_fill(vb.v, vb.v + vb.n, x); // strong-guarantee
+        vector(size_t n, const T &x): vb{n} , n{n}{
+            uninitialized_fill(vb.v, vb.v + vb.cap, x); // strong-guarantee
+        }
+        void clear(){
+            while(n) pop_back();
         }
         ~vector() {
-            // or clear(), destruct all items
-            destroy_elements(); 
+            clear();
         }
 };
 ```  
@@ -114,30 +121,30 @@ template<typename T> class vector {
 
 ### **Copy Constructor:**
 ```C++
-template<typename T> vector<T>::vector(const vector &other): vb{other.size()} {
-    uninitialized_copy(other.begin(), other.end(), vb.v);   // Similar to uninitialized_fill, details, exercise
+vector(const vector &other): vb{other.n}, n{other.n} {
+    uninitialized_copy(vb.v, vb.v+vb.cap, other.begin());   // Similar to uninitialized_fill, details, exercise
 }
 ```
 
-Assignment: copy & swap is exception-safe because swap is no-throw
+Assignment: copy & swap is exception-safe as long as swap is no-throw
 
-Pushback:
+Push_back:
 ```C++
 void push_back(const T& x) {
     increaseCap();
-    new(vb.v + vb.n) T{x}; // If this throws, have the same vector
-    ++ vb.n; // Don't increment n before you know the construction succeded
+    new(vb.v + n) T(x); // If this throws, have the same vector
+    ++ n; // Don't increment n before you know the construction succeded
 }
 ``` 
 
-What about `increaseCap`? 
+What if `increaseCap` throws? 
 
 ```C++
 void increaseCap() {
     if (vb.n == vb.cap) {
         vector_base vb2 {2 * vb.cap};   // RAII, anything goes wrong we're good
-        uninitialized_copy(vb.v, vb.v + vb.n, vb2.v);   // Strong guarantee
-        destroy_elements(); // clear();
+        uninitialized_copy(vb2.v, vb.v + n, vb.v);   // Strong guarantee
+        clear();
         std::swap(vb, vb2); // might be no throw
     }
 }
@@ -146,28 +153,28 @@ void increaseCap() {
 **Note:** only `try` blocks are in `uninitialized_copy` and `uninitialized_fill`.
 
 But we have an efficiency issue - copying from old array to the new one knowing that the old array is going to be destroyed. Moving would be better.
-- But moving destroys the old array, so if an exception is thrown during moving, our vector is destroyed
-- Therefore we can only move if we are sure that the move operation is nothrow.
+- But moving does not preserve the old array, so if an exception is thrown during moving, our vector is corrupted
+- Therefore, we can only move if we are sure that the move operation is nothrow.
 
 ```C++
 void increaseCap() {
-    if (vb.n == vb.cap) {
+    if (n == vb.cap) {
         vector_base vb2 {2 * vb.cap};
-        uninitialized_copy(vb.v, vb.v + vb.n, vb2.v);   
-        destroy_elements();
+        uninitialized_copy_or_move(vb2.v, vb2.v + n, vb.v);
+        clear();
         std::swap(vb, vb2); 
     }
 }
 
 template<typename T>
-void uninitialized_copy_or_move(T *start, T *finish, T *target) {
+void uninitialized_copy_or_move(T *start, T *finish, T *source) {
     T *p;
     try {
-        for (p = start; p != finish; ++p, ++target) {
-            new(static_cast<void*>(target)) T{std::move_if_noexcept(*p)};
+        for (p = start; p != finish; ++p, ++source) {
+            new(p) T{std::move_if_noexcept(*p)};
         }
-    } catch(...) {
-        while (p != start) (-- p)->~T();
+    } catch(...) {//will nevery happen if T has a non-throwing move constructor
+        for(;p!=start;--p) (source+(p-start-1)->~T();
     }
 }
 ```
@@ -186,7 +193,7 @@ class C {
 
 In general: moves and swaps should be non-throwing. Declare them so - will allow more optimized code to run.
 
-Any function you are sure will never throw or propogate an exception, you should declare `noexcept`.
+Any function you are sure will never throw or propagate an exception, you should declare `noexcept`.
 
 **Q:** Is `std:swap` `noexcept`?
 

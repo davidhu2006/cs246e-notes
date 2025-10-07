@@ -1,7 +1,7 @@
 [Less Copying << ](./problem_14.md) | [**Home**](../README.md) | [>> Is vector exception safe?](./problem_16.md) 
 
 # Problem 15: Memory management is hard!
-## **2021-10-07**
+## **2025-10-02**
 
 No it isn't!
 - Vectors can do everything arrays can
@@ -10,7 +10,7 @@ No it isn't!
     - Are tuned to minimize copying
 
 Just use vectors, and you'll never have to manage arrays again.
-C++ has enough abstraction facilites to make programming easier than C.
+C++ has enough abstraction facilities to make programming easier than C.
 
 But what about single objects?
 
@@ -46,18 +46,18 @@ void f() {
 Raising and handling an exception should not corrupt the program. 
 - We desire **exception safety**.
 
-Leaks are a corruption of your program's memory. This will eventualy degrade performance and crash the program.
+Leaks are a corruption of your program's memory. This will eventually degrade performance and crash the program.
 
-If a program cannot recover from an expression without corrupting its memory, what's the point of recovering?
+If a program cannot recover from an expression without corrupting its memory, what's the point of proceeding?
 
-What constitues exception safety? 3 levels:
+What constitutes exception safety? 3 levels:
 1. **Basic guarantee** - once an exception has been handled, the program is in **some** valid state, no leaked memory, no corrupted data structures, all invariants are maintained.
 1. **Strong guarantee** - if an exception propagates out of a function `f`, then the state of the program will be **as if `f` had not been called**.
     - `f` either succeeds completely or not at all, no in between.
 1. **Nothrow guarantee** - a function `f` offers the nothrow guarantee if `f` **never emits an exceptions** and always accomplishes its purpose
 
 
-Will revist, but now coming back to `f`:
+Will revisit, but now coming back to `f`:
 
 ```C++
 void f() {
@@ -100,8 +100,6 @@ void f() {
 
 That's it! Less memory management effort than we started with!
 
-## **2021-10-19**
-
 Using `unique_ptr` can use `get` to fetch the raw pointer.
 
 **Better** - make `unique_ptr` act like a pointer.
@@ -142,7 +140,7 @@ unique_ptr<Posn> q = p;
 Two pointers to the same object! Can't both delete it! (Undefined behaviour)
 
 
-**Solution:** copying `unique_ptr`s are not allowed. Moving is ok though.
+**Solution:** copying `unique_ptr`s is not allowed. Moving is ok though.
 
 ```C++
 template<typename T> class unique_ptr {
@@ -192,6 +190,7 @@ Then what if `g` throws? 1. is leaked.
 
 We can fix this by making 1. and 3. inseparable using a helper function
 
+Emplacement for unique_ptr: make_unique
 ```C++
 template<typename T, typename... Args> unique_ptr<T> make_unique(Args&&... args) {
     return unique_ptr<T> { new T(std::forward<Args> (args)...) };
@@ -201,7 +200,7 @@ template<typename T, typename... Args> unique_ptr<T> make_unique(Args&&... args)
 
 `unique_ptr` is an example of the C++ idiom: **Resource Acquisition Is Initialization (RAII)**
 - Any resource that must be properly released (memory, file handle, etc.) should be wrapped in a stack-allocated object whose destructor frees it
-- Ex. `unique_ptr`, `ifstream`/`ofstream` aquire the resource when the object is initialized and release it when the object's destructor runs
+- Ex. `unique_ptr`, `ifstream`/`ofstream` acquire the resource when the object is initialized and release it when the object's destructor runs
 
 C++ is one of the languages that don't have a garbage collector, and they don't plan on adding it. 
 - One of the argument is that garbage collection only solve a part of the problem, it does not solve everything. Yes it cleans up your memory, but you memory is only one of the many things you need to clean up (file, network connection,...). 
