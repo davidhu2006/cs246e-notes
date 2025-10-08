@@ -1,4 +1,4 @@
-[Insert/Remove in the middle <<](./problem_17.md) | [**Home**](../README.md) | [>> Heterogeneous Data](./problem_19.md)
+[The middle <<](./problem_17.md) | [**Home**](../README.md) | [>> Heterogeneous Data](./problem_19.md)
 
 # Problem 18 - Abstraction over Containers
 ## **2021-10-21**
@@ -148,4 +148,4 @@ If the lambda is declared mutable, then `operator()` is not const.
 - Capture list - provides access to selected vars in the enclosing scope.
 
 ---
-[Insert/Remove in the middle <<](./problem_17.md) | [**Home**](../README.md) | [>> Heterogeneous Data](./problem_19.md)
+[The middle <<](./problem_17.md) | [**Home**](../README.md) | [>> Heterogeneous Data](./problem_19.md)

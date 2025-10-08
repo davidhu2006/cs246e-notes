@@ -24,7 +24,7 @@ The textbook used is [Stroustrup, Bjarne. The C++ Programming Language, 4th edit
 1. [Less Copying!](Notes/problem_14.md)
 1. [Memory management is hard!](Notes/problem_15.md)
 1. [Is vector exception safe?](Notes/problem_16.md)
-1. [Insert/remove in the middle](Notes/problem_17.md)
+1. [The middle](Notes/problem_17.md)
 1. [Abstraction over containers](Notes/problem_18.md)
 1. [Heterogeneous Data](Notes/problem_19.md)
 1. [I'm leaking!](Notes/problem_20.md)

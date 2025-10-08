@@ -1,4 +1,4 @@
-[Memory management is hard <<](./problem_15.md) | [**Home**](../README.md) | [>> Insert/Remove in the middle](./problem_17.md)
+[Memory management is hard <<](./problem_15.md) | [**Home**](../README.md) | [>> The middle](./problem_17.md)
 
 # Problem 16: Is vector exception safe?
 ## **2025-10-07**
@@ -195,6 +195,8 @@ In general: moves and swaps should be non-throwing. Declare them so - will allow
 
 Any function you are sure will never throw or propagate an exception, you should declare `noexcept`.
 
+## **2025-10-08**
+
 **Q:** Is `std:swap` `noexcept`?
 
 ```C++
@@ -217,4 +219,4 @@ template<typname T> void swap(T &a, T &b)
 **Note:** `noexcept` = `noexcept(true)`
 
 ---
-[Memory management is hard <<](./problem_15.md) | [**Home**](../README.md) | [>> Insert/Remove in the middle](./problem_17.md)
+[Memory management is hard <<](./problem_15.md) | [**Home**](../README.md) | [>> The middle](./problem_17.md)
