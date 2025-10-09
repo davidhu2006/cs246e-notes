@@ -1,4 +1,4 @@
-[Is vector exception safe? << ](./problem_16.md) | [**Home**](../README.md) | [>> Abstraction over containers?](./problem_18.md) 
+[Is vector exception safe? << ](./problem_16.md) | [**Home**](../README.md) | [>> A case study in Strings](./problem_18.md) 
 
 # Problem 17: The middle
 ## **2025-10-08**
@@ -76,6 +76,8 @@ This is really tricky. A general rule of thumb (in programming only, not during 
   - If it fails, you have not done anything yet
   - If it succeeds, you are home free :D
 
+## **2025-10-09**
+
 So let's write the new item before we transfer the old ones.
 ```C++
 template<typename T> class vector {
@@ -83,22 +85,22 @@ template<typename T> class vector {
 public:
     void push_back(const T& x) {
         // we will increase size by hand rather than relying on our existing method
-        if (vb.n == vb.cap) {
-            vector_base<T> vb2{2 * cap};
-            new (vb2.v + vb.n) T(x); // if this fails, then vb2 is clean up automatically, which is good
-            vb2.n = vb.n + 1;
+        if (n == vb.cap) {
+            vector_base<T> vb2{2 * vb.cap};
+            new (vb2.v + n) T(x); // if this fails, then vb2 is clean up automatically, which is good
             try {
                 uninitialized_copy_or_move(vb.v, vb.v + vb.n, vb2.v);
+                size_t m=n;
                 clear();
+                n=m+1;
                 std::swap (vb, vb2);
             } catch (...) {
                 // if uninit... fails, we still have the new vb2 array, everything else was clean up, and so the only thing left we need to clean up now is the T(x) item we just put in
-                (vb2.v + vb2.n - 1)->~T();
+                vb2.v[n].~T();
                 throw;
             }
         } else {
-            new (vb.v + vb.n) T(x);
-            ++ vb.n; // we don't want to do this postfix, that would be too soon because new (addr) T(x) might fail, and we don't want to increase n if it fails 
+          ...
         }
     }
 }
@@ -107,4 +109,4 @@ public:
 - Exercise: go through this again and convince yourself that this is strong guarantee
 
 ---
-[Is vector exception safe? << ](./problem_16.md) | [**Home**](../README.md) | [>> Abstraction over containers?](./problem_18.md)
+[Is vector exception safe? << ](./problem_16.md) | [**Home**](../README.md) | [>> A case study in Strings](./problem_18.md)

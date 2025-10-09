@@ -1,7 +1,161 @@
 [The middle <<](./problem_17.md) | [**Home**](../README.md) | [>> Heterogeneous Data](./problem_19.md)
 
-# Problem 18 - Abstraction over Containers
-## **2021-10-21**
+# Problem 18 - A case study in Strings
+## **2025-10-09**
+
+
+So if a string is a sequence of chars, can we just use vector<char> when we want a string?
+
+Ans: Yes, in principle. But there might be some reasons not to...
+
+Primarily, vector functions as a container of items that my not have much to do with each others.
+But in a string, it's the elements taken together as a group that make a string what it is.
+
+E.g. Strings are more likely than vectors to 
+- be appended to one another
+- be compared lexicographically
+- be searched for a substring
+- have a substring extracted
+
+All of these are about characters in the sequence in conjunction with their neighbors.
+So, a string would likely be expected to support a difference interface from vector.
+
+There are different kinds of characters
+There is char(8 bits), but there are also wider character types, so string should be a template parameterized by character type.
+For simplicity, we'll stick with char and not write a template.
+
+No matter what the character type is, they all have one thing in common - they're a basic type, not a class. 
+So no constructors/destructors, no placement new needed.
+
+Simple implementation:
+```C++
+class stirng{
+    size_t length, cap;
+    char *theString;
+    ...
+};
+```
+**Question:** Do we still need null termination?
+**Answer:** No, but also, kind of. We have a length field now, to tell us how long the string is.
+**Advantages:**
+1. length is O(1)
+2. There can now be `\0`'s in the middle of a string
+**But:** We still need to be able to interface with functions expecting char*.
+
+
+```C++
+class string{
+    ...
+    public:
+        ...
+        const char *c.str(); //Returns an equal C-style string, O(1) time
+        ...
+}
+```
+For this to work, the char* must be null-terminated. Se we still need `theString[length]=='\0'` even though we don't need this condition to determine length.
+
+**Note:** if our string does contain `'\0`'s(not as terminators), the char* returned by c.str will be interpreted as ending at the first `'\0'`
+
+**Comparison(lexicographically)** 
+C:strcmp - direct comparison was comparison at pointers
+
+Since string is a class, we can define `operator<`, `operator<=`, etc. for strings.
+Instead of `if(strcmp(s1, s2)<0)...`, we can write `if(s1<s2)...`
+But `strcmp` had one advantage over `operator<`, etc.: it is 3-valued.
+So we can write:
+```C++
+char *s1, *s2;
+auto result=strcmp(s1, s2);//1 linear scan
+if(result<0){...}
+else if(result==0){...}
+else {...}
+```
+vs.
+```C++
+string s1, s2;
+if(s1<s2){...}//1 linear scan
+else if(s1==s2){...}//2 linear scans. Mostly the same operation done twice
+else {...}
+```
+If we want to compete with C, we need a 3-valued comparison operation: `operator<=>`
+The standard provides a class `std::strong-ordering` and constants `std::strong-ordering{less, equal, greater}` that we can use as the result of comparison.
+These constants compare, respectively, as {`<`, `==`, `>`} 0
+
+By default, `<=>` does lexicographical comparison for free, if you ask for it:
+```C++
+class Vec{
+    int x, y;
+    public:
+        std::strong-ordering operator<=>(const Vec &other)const = default;
+}
+```
+Or we could write it ourselves:
+```C++
+class Vec{
+    ...
+    std::strong-ordering operator<=>(const Vec &other)const {
+        auto n=x<=>other.x;
+        return (n==0)? y<=>other.y:n;//equivalent to default
+    }
+};
+```
+But for string, the default will do pointer comparison on `theString`, so we need to write our own:
+```C++
+class string{
+    ...
+    std::strong-ordering operator<=>(const string &other)const {
+        for(size_t i=0;i<min(length, other.length);++i){
+            if(theString[i]!=other.theString[i])
+                return theString[i]<=>other.theString[i];
+        }
+        return length<=>other.length;
+    }  
+};
+```
+This also gets us `s1<s2` for free, also `<=`, `>`, `>=`. `s1<s2` is rewritten by the compiler as `(s1<=>s2)<0` etc.
+
+There's a small problem with (in)equality.
+- `<=>` always does a linear scan, even if the strings have different lengths
+- But strings of different lengths cannot be equal
+
+**Solution:** write a specialized `operator==` (exercise)
+- compare lengths first
+- then do a linear scan
+
+C++ will use this for both `==` and `!=`.
+
+**Optimizing the representation**
+One thing we know about `chars` vs `T`'s - they're small(one byte). A lot of strings are small too.
+
+`string s="a"`
+`
+| 1 | length
+|10?| cap
+| -> | a | \0 | | theString
+`
+pointer deref -> pointer locality
+- seems wasteful when the payoff is one character.
+
+What if short strings were represented differently?
+
+Multiple representations for an objects... let's talk about unions.
+For types `T1`, `T2`, 
+```C++
+Union U{
+    T1 t1;
+    T2 t2;//like a structure, but has one of the fields t1, t2(U has space to hold whichever is larger)
+}
+```
+**Danger:**
+```C++
+T1 x;
+U u;
+u.t1=x;
+T2 y=u.t2;//Undefined Behaviour
+```
+Unions must be used consistently - must remember which field of a union is active
+
+
 
 Recall: `map` from Racket
 
