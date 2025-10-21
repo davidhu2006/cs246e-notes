@@ -153,8 +153,78 @@ U u;
 u.t1=x;
 T2 y=u.t2;//Undefined Behaviour
 ```
+## **2025-10-21**
 Unions must be used consistently - must remember which field of a union is active
+Typically - discriminator variable, or the union appears inside a struct with a discriminator field
 
+Traditional vector/string layout:
+```C++
+class string{
+    size_t n;
+    size_t cap;
+    char *theString;//short string optimization, use this space as an arry of chars, if n is small
+    //The size n can also be discriminator
+}
+```
+Then,
+```C++
+class string{
+    struct S{
+        size_t cap;
+        char *theString;
+    };
+    size_t n;//if n>=sizeof(s), use S; else use arr
+    union{
+        S s;
+        char arr[sizeof(s)];
+    }
+}
+```
+Assuming `size_t` is 8 bytes, pointers are 8 bytes. SSO can hold 15 bytes(+1 for null=16)
+But(trick):What if we store the size n last, instead of first? (Note: Assumes big-endian architecture)
+
+If the string is short - the first 7 bytes of n will be 0. The first byte of n could function as the null terminator.
+Then we can hold 16 characters+null terminator
+
+**Extracting Substrings**
+-`string::substr` creates a new string - new heap allocation (Or SSO)
+-Can we do better? What if we know the substring will not be mutated?
+
+Consider:
+```C++
+class string_view{
+    const char *start;
+    size_t n;
+};
+```
+A non-owning slice & a string
+Points to a position in an existing `string` or `char*`, or `vector<char>` plus a length(to encode the end)
+- No allocation
+- Smaller than string 
+  - Pass-by-value is reasonable
+- Copy operators are trivial
+  - no big 5
+
+What could we do with this? What methods could we give `string_view`?
+- iteration 
+  - begin/end
+  - range-based loops
+    - Note: Null termination is not guaranteed, so range_based looping is appropriate
+- extracting further substrings
+  - remove prefix
+    - modify the endpoints
+  - remove suffix
+    - modify the endpoints
+  - substr
+    - new `string_view`
+
+
+
+
+
+
+# Problem 20 - Abstraction over containers
+## **2025-10-21**
 
 
 Recall: `map` from Racket
@@ -194,8 +264,7 @@ This is OK, but:
 More general: use iterators
 
 ```C++
-// This does not compile yet for C++14, but it would in C++20
-// For now just assume it compiles and just work on how it would work out
+// This does not compile for C++14, but it would in C++20
 template <typename T1, typename T2> void transform(vector<T1>::iterator start, 
     vector<T1>::iterator finish, vector <T2>::iterator target, T2 (*f)(T1)) {
     while (start != finish) {
@@ -223,7 +292,6 @@ void transform(InIter start, InIter finish, OutIter target, Fn f) {
 }
 ```
 - Works over vector iterators, list iterators, or any kinds of iterators.
-- And now, it actually compiles.
 
 InIter/OutIter can be any types that support `++`, `*`, `!=`, including ordinary raw pointers.
 
@@ -277,7 +345,7 @@ lambda: [...](...) mutable? noexcept? { ... }
 Semantics: 
 ```C++
 void f(T1 a, T2 b) {
-    [a, &b](int x) { body }
+    [a, &b](int x) { body }(arg)
 }
 ```
 In the C++ context, lambdas are really just objects. This would be translated to:
