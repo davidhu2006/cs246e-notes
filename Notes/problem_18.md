@@ -369,5 +369,91 @@ void f (T1 a, T2 b) {
 If the lambda is declared mutable, then `operator()` is not const.
 - Capture list - provides access to selected vars in the enclosing scope.
 
+
+
+# Problem 21 - What's better than one iterator?
+## **2025-10-22**
+
+Two iterators!
+Consider `vector<T>::erase`
+- takes an iterator to the item
+- removes the item
+- shuffles the following items backward
+- returns an iterator to the point of erasure
+
+O(n) cost for shuffling: Fine.
+
+But - What if you need to erase several consecutive items?
+- Call `erase` repeatedly? Pay that O(n) cost multiple times
+- Faster - Shuffle the items up k positions(in one step each) where k is the # of items being erased
+
+For this reason, we should make a `range` version of erase
+```C++
+iterator vector<T>::erase(iterator first, iterator last)
+```
+Erases items in `[first, last)`, only pays the linear cost once
+
+So maybe iterator isn't the right level of abstraction
+- Maybe the right abstraction encapsulates a pair of iterators - a `range`
+
+Consider: composing multiple functions on some input
+e.g. `filter+transform`(say take all the odd numbers and square them)
+```C++
+auto odd=[](int n){return n%2!=0;};
+auto sqr=[(int n){return n*n;};
+
+vector v{...};//contains something
+vector<int> w(v.size(), x(v.size());
+copy-if(v.begin(), v.end(), w.begin(), odd);//copy-if by import<algorithm>
+transform(w.begin, w.end(), x.begin(), sqr);
+```
+
+2 problems
+1. The calls don't compose well. Needs 2 separate function calls, no way to chain them
+2. Needed to create a vector for intermediate storage
+
+These functions return an iterator to the beginning of the output range
+
+What if instead we get a pair of iterators to the beginning and end of the output range
+```C++
+template<typename Iter> class range{
+  Iter start, finish;
+  public:
+    Iter begin(){return start;}
+    Iter end(){return finish;}
+};
+```
+
+And what if, instead, `copy-if` and `transform` took a range, rather than a pair of iterators
+
+```C++
+transform(copy-if(v, odd), sqr);//a range is anything with begin() and end() producing iterator types. Vector is a range.
+```
+Functions are now composable, what about intermediate storage?
+
+Who says we need it now? A range only needs to look like it's sitting on top of a container.
+Instead: have the range fetch items on demand.
+
+`filter` - on fetch, iterate through the range until you find an item that satisfies the predicate and return it.
+`transform` - on fetch, fetch an item x from the range below and return `f(x)`
+
+These range objects are called `views` and they have on-demand fetching, no intermediate storage.
+These exist in the C++20 std libraries:
+```C++
+import <ranges>;
+vector v{1,2,3,4,5,6,7,8,9,10};
+auto x=std::ranges::views::transform(std::ranges::views::filter(x, odd), sqr);
+```
+
+It gets better: `filter`, `transform` take a second form
+`filter(pred), transform(f)` (Just supply the function, not the range)
+Become callable objects, parameterized by a range R.
+
+e.g. `filter(pred)(R)`, `transform(f)(R)`,
+`transform(sqr)(filter(odd)(R))`
+
+Then `operator|` is defined so that `R|A` is mapped to `A(R)`. So `B(A(R))=B(R|A)=R|A|B`.
+So we can write `auto x=v|filter(odd)|transform(sqr)`, just like a Bash pipeline!
+
 ---
 [The middle <<](./problem_17.md) | [**Home**](../README.md) | [>> Heterogeneous Data](./problem_19.md)

@@ -1,7 +1,7 @@
 [Abstraction over containers << ](./problem_18.md) | [**Home**](../README.md) | [>> I'm leaking!](./problem_20.md)
 
-# Problem 19 - Heterogenous Data
-## **2021-10-21**
+# Problem 22 - Heterogeneous Data
+## **2025-10-22**
 
 I want a mixture of types in my vector.
 
@@ -10,7 +10,7 @@ Can't do this with a template.
 ```C++
 vector<template<typename T> T> v;
 ```
-- Not allowed - templates are compile time entities, they don't exist at runtime
+- Not allowed - templates are compile-time entities, they don't exist at runtime
 
 Ex. Fields of a struct
 
@@ -29,13 +29,15 @@ Media nowPlaying;
 ```
 - Nice but you don't know what it might be exactly, you would need to store a member field, not so ideal
 
-**void\***
+**void***
 ```C
 void *nowPlaying;
 ```
 - Even worse, can point to anything
 
 These are **not type-safe**.
+
+## **2025-10-23**
 
 Items in a heterogeneous collection will **usually** have something in common, ex. provide a common interface.
 
@@ -46,7 +48,7 @@ We'll use the standard CS 246 example because it's good:
 ```C++
 class Book {    // Superclass or Base class
         string title, author;
-        int length;
+        int length;//number of pages
     public:
         Book(string title, string author, int length):
             title{title},
@@ -69,7 +71,6 @@ BOOK
 +--------+
 ```
 - If you are not clear yet, we will be talking about **Inheritance**. 
-## **2021-10-26**
 Some books are special though
 ```C++
 // Book would be super class / base class
@@ -144,18 +145,18 @@ class Book {
 
 2. _Call public method_
 ```C++
-bool Text::isHeavy() const { return getLength() > 500; }
+bool Text::isHeavy() const { return getLength() > 200; }
 ```
 
 Recommended option is 2.
 - You have no control over what subclasses might do
 - Protected weakens encapsulation (cannot enforce invariants on protected fields)
 
-If you want subclasses to have priviledged access
+If you want subclasses to have privileged access
 - Keep fields private
 - Provide protected `get_` and `set_` methods
 
-## Updated object creation/destruction protocols
+## Updated object construction/destruction sequence
 
 **Creation:**
 1. Space is allocated
@@ -172,7 +173,7 @@ If you want subclasses to have priviledged access
 - Also recall that `new` and `delete` would be all step 1 to 4, while `operator new` would be step 1, then placement new `new (addr) obj` would be step 2-4, and samething for operator delete and invoking destructor.
 - Roughly speaking, `new = operator new + placement new`.
 
-Must revist everything we have learnt to see the effect of inheritance
+Must revisit everything we have learnt to see the effect of inheritance
 
 ## Type compatibility
 `Text`s and `Comic`s are special kinds of `Book`s - should be usable in place of `Book`s
@@ -210,7 +211,7 @@ Keeps only the `Book` part - `Comic` part is "chopped off" - **slicing**
 
 Slicing happens even if superclass & subclass are the same size. This is a good thing because this behavior is consistent.
 
-Similarily, if you want to collect your books:
+Similarly, if you want to collect your books:
 
 ```C++
 vector<Book> library;
