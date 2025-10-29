@@ -1,7 +1,7 @@
-[Heterogeneous Data << ](./problem_19.md) | [**Home**](../README.md) | [>> I want a class with no objects](./problem_21.md)
+[Heterogeneous Data << ](./problem_19.md) | [**Home**](../README.md) | [>> If a class has no objects...](./problem_21.md)
 
-# Problem 20 - I'm leaking!
-## **2021-10-26**
+# Problem 23 - I'm leaking!
+## **2025-10-28**
 
 ```C++
 class X {
@@ -61,4 +61,4 @@ Also from the doc ([cppreference](https://en.cppreference.com/w/cpp/language/vir
 
 
 ---
-[Heterogeneous Data << ](./problem_19.md) | [**Home**](../README.md) | [>> I want a class with no objects](./problem_21.md)
+[Heterogeneous Data << ](./problem_19.md) | [**Home**](../README.md) | [>> If a class has no objects...](./problem_21.md)

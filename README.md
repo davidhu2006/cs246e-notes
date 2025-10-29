@@ -28,9 +28,9 @@ The textbook used is [Stroustrup, Bjarne. The C++ Programming Language, 4th edit
 1. [Abstraction over containers](Notes/problem_18.md)
 1. [Heterogeneous Data](Notes/problem_19.md)
 1. [I'm leaking!](Notes/problem_20.md)
-1. [I want a class with no objects](Notes/problem_21.md)
+1. [If a class has no objects...](Notes/problem_21.md)
 1. [The copier is broken (again)](Notes/problem_22.md)
-1. [I want to know what kind of Book I have](Notes/problem_23.md)
+1. [What kind of `Book` is this](Notes/problem_23.md)
    
    [A Big Unit on Object Oriented Design](Notes/object_oriented_design.md)
 1. [Shared Ownership](Notes/problem_24.md)

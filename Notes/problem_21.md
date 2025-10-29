@@ -1,7 +1,7 @@
 [I'm leaking! << ](./problem_20.md) | [**Home**](../README.md) | [>> The copier is broken (again)](./problem_22.md)
 
-# Problem 21 - I want a class with no objects
-## **2021-10-28**
+# Problem 24 - If a class has no objects...
+## **2025-10-28**
 
 ```C++
 class Student {
@@ -11,12 +11,12 @@ class Student {
 
 class RegularStudent: public Student {
     public:
-        float fees() const override;    // Regular student frees
+        float fees() const override;    // Regular student fees
 }
 
 class CoopStudent: public Student {
     public:
-        float fees() const override;    // Co-op student frees
+        float fees() const override;    // Co-op student fees
 }
 ```
 
@@ -49,7 +49,7 @@ Can point to instances of **concrete classes** (non-abstract classes):
 ```C++
 Student *s = new RegularStudent;
 ```
-Subclasses of abstract classes are abstract are abstract, unless they implement every pure virtual method in the superclass.
+Subclasses of abstract classes are abstract, unless they implement every pure virtual method in the superclass.
 
 Abstract classes 
 - used to organize concrete classes

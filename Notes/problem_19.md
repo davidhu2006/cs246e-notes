@@ -279,6 +279,8 @@ class Comic {
 p->isHeavy();   // true!
 ```
 
+## **2025-10-28**
+
 `override` is a contextual keyword, is only a keyword in that specific location.
 - It tells C++ compiler: "Hey, this method is supposed to override something". You need to make sure everything matches too (signature, constness,...), otherwise this would not be override, it would be an overload, which might caused unexpected behaviours.
 - Tells the compiler: "Make sure there is a method in the super class with exactly the same signature, that is virtual, so that I can be sure that this can override properly.
@@ -311,7 +313,7 @@ Correct version of `isHeavy` is always chosen, even though we don't know what's 
 This is called **polymorphism**.
 
 How do virtual methods "work" and why are they more expensive? (though not _significantly_ more expensive)
-- Implementation dependent, but the following is most common:
+- Implementation dependent, but the following is typical:
 
 **Vtables** (only contain virtual methods)
 ```C++
@@ -330,7 +332,7 @@ How do virtual methods "work" and why are they more expensive? (though not _sign
 | isHeavy | -> Comic::isHeavy // then call the body code here
 +---------+
 ```
-So when we create two `Book`s `b1`, `b2`, and a `Comic b2`:
+So when we create two `Book`s `b1`, `b2`, and a `Comic c`:
 ```C++
 // actual object would look like this
 Book b1;
@@ -357,7 +359,7 @@ Book b2;
 | Length |
 +--------+
 
-Comic b2;
+Comic c;
 
 +--------+
 | vptr   | -------> (2)
@@ -367,6 +369,8 @@ Comic b2;
 | Author |
 +--------+
 | Length |
++--------+
+| Hero   |
 +--------+
 ```
 Non-virtual methods are just ordinary function calls.

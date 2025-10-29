@@ -1,7 +1,7 @@
-[I want a class with no objects << ](./problem_21.md) | [**Home**](../README.md) | [>> I want to know what kind of Book I have](./problem_23.md)
+[If a class has no objects... << ](./problem_21.md) | [**Home**](../README.md) | [>> What kind of `Book` is this](./problem_23.md)
 
-# Problem 22 - The copier is broken (again)
-## **2021-10-28**
+# Problem 25 - The copier is broken (again)
+## **2025-10-29**
 
 How do copies and moves interact with inheritance?
 
@@ -24,6 +24,7 @@ We can still call `std::move(other.topic)` even though we already moved other be
 Text &Text::operator=(const Text& other) {
     Book::operator=(other);
     topic = other.topic;
+    return *this;
 }
 ```
 
@@ -32,6 +33,7 @@ Text &Text::operator=(const Text& other) {
 Text &Text::operator=(Text&& other) {
     Book::operator=(std::move(other));
     topic = std::move(other.topic);
+    return *this;
 }
 ```
 - We don't do unified assignment here, because it would cause problem later, not necesarily for `Text`, but probably for `Book`, because it doesn't work that well when you have inheritance, because pass-by-value implies slicing. We want to avoid that.
@@ -43,6 +45,7 @@ Book *b2 = new Text{...};  // Author2 writes C++
 
 // what happens here???
 *b1 = *b2;
+//Only the Book part is copied, partial assignment. Topic does not match title+author
 ```
 Now Author2 writes about BASIC and Author1 writes about C++
 - Essentially only the book part gets copied over
@@ -106,13 +109,19 @@ class AbstractBook {
     // ...
     protected:
         AbstractBook &operator=(AbstractBook other) { ... } // Non-virtual
+    public:
+        virtual ~AbstractBook()=0;//Pure-virtual class, now the class is abstract
 };
 
+AbstractBook::~AbstractBook(){}
+
 class Text: public AbstractBook {
+    string topic
      public:
-        Text &operator=(Text other) {
-            AbstractBook::operator=(std::move(other));
-            topic = std::move(other.topic);
+        Text &operator=(const Text &other) {
+            AbstractBook::operator=(other);
+            topic = other.topic;
+            return *this;
         }
 };
 ```
@@ -126,4 +135,4 @@ Now `*b1 = *b2` won't compile, preventing partial assignment.
 Basically saying, before you assign something, understand what you're assigning and do it directly rather than through your superclass.
 
 ---
-[I want a class with no objects << ](./problem_21.md) | [**Home**](../README.md) | [>> I want to know what kind of Book I have](./problem_23.md)
+[If a class has no objects... << ](./problem_21.md) | [**Home**](../README.md) | [>> What kind of `Book` is this](./problem_23.md)

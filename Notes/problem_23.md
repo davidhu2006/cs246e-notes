@@ -1,9 +1,9 @@
 [The copier is broken (again) << ](./problem_22.md) | [**Home**](../README.md) | [>> A big unit on Object Oriented Design](./object_oriented_design.md)
 
-# Problem 23: I want to know what kind of `Book` I have
-## **2021-10-28**
+# Problem 26: What kind of `Book` is this
+## **2025-10-29**
 
-**For simplicity:** Assume the old book hiearchy
+**For simplicity:** Assume the old book hierarchy
 
 - `Book`
     - `Text`

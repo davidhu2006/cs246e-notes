@@ -1,4 +1,4 @@
-[I want to know what kind of Book I have << ](./problem_23.md) | [**Home**](../README.md) | [>> Shared Ownership](./problem_24.md)
+[What kind of `Book` is this << ](./problem_23.md) | [**Home**](../README.md) | [>> Shared Ownership](./problem_24.md)
 
 # A Big Unit on Object Oriented Design
 ## **2021-11-02**
@@ -1056,4 +1056,4 @@ class B {
 ```
 
 ---
-[I want to know what kind of Book I have << ](./problem_23.md) | [**Home**](../README.md) | [>> Shared Ownership](./problem_24.md)
+[What kind of `Book` is this << ](./problem_23.md) | [**Home**](../README.md) | [>> Shared Ownership](./problem_24.md)
