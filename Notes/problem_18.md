@@ -162,7 +162,7 @@ Traditional vector/string layout:
 class string{
     size_t n;
     size_t cap;
-    char *theString;//short string optimization, use this space as an arry of chars, if n is small
+    char *theString;//short string optimization, use this space as an array of chars, if n is small
     //The size n can also be discriminator
 }
 ```
