@@ -203,7 +203,7 @@ template<typename T, typename... Args> unique_ptr<T> make_unique(Args&&... args)
 - Ex. `unique_ptr`, `ifstream`/`ofstream` acquire the resource when the object is initialized and release it when the object's destructor runs
 
 C++ is one of the languages that don't have a garbage collector, and they don't plan on adding it. 
-- One of the argument is that garbage collection only solve a part of the problem, it does not solve everything. Yes it cleans up your memory, but you memory is only one of the many things you need to clean up (file, network connection,...). 
+- One of the argument is that garbage collection only solve a part of the problem, it does not solve everything. Yes it cleans up your memory, but your memory is only one of the many things you need to clean up (file, network connection,...). 
 - Another thing is that garbage collecting can happen at any time - program must be stopped temporarily, memory must be cleaned, then resume again - which introduces some lags affecting program performance. With dtor, you know exactly when it's gonna happen, it's free and cheap, you don't really need to care about it.
 
 ---
