@@ -405,7 +405,7 @@ auto sqr=[(int n){return n*n;};
 vector v{...};//contains something
 vector<int> w(v.size(), x(v.size());
 copy-if(v.begin(), v.end(), w.begin(), odd);//copy-if by import<algorithm>
-transform(w.begin, w.end(), x.begin(), sqr);
+transform(w.begin(), w.end(), x.begin(), sqr);
 ```
 
 2 problems
@@ -442,7 +442,7 @@ These exist in the C++20 std libraries:
 ```C++
 import <ranges>;
 vector v{1,2,3,4,5,6,7,8,9,10};
-auto x=std::ranges::views::transform(std::ranges::views::filter(x, odd), sqr);
+auto x=std::ranges::views::transform(std::ranges::views::filter(v, odd), sqr);
 ```
 
 It gets better: `filter`, `transform` take a second form
