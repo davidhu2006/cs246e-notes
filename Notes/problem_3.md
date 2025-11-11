@@ -70,7 +70,7 @@ Including old C headers: `#include <stdio.h>` -> `#include <cstdio>`
 `#define VAR VALUE`
 
 - Preprocessor variable
-- All subsequent occurences of VAR are replaced with VALUE
+- All subsequent occurrences of VAR are replaced with VALUE
 
 **Ex 1.**
 ```C++
@@ -114,7 +114,7 @@ Instead of defining the constant inside the code, we can use a command line arg
 #endif
     publicKey;
 ```
-- This is called **conditional compilation**. If the condition is true, the compiler gets to see the code. Otherwise, it does not even go through at all i.e, it transformes the code before the it reaches the compiler.
+- This is called **conditional compilation**. If the condition is true, the compiler gets to see the code. Otherwise, it does not even go through at all i.e, it transforms the code before it reaches the compiler.
 - Choose one of the options to present to the compiler. `#else` also exists
 
 **Special Case:**

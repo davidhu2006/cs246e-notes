@@ -188,7 +188,7 @@ Values in C++:
 
         glvalues         rvalues
         /       \       /       \
-    lvalues     xvalues      grvalues
+    lvalues     xvalues      prvalues
 
 glvalue
 - Denotes a storage location. 

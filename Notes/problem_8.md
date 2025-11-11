@@ -138,7 +138,7 @@ class list {
         ++len;
     }
 
-    void pop_font() {
+    void pop_front() {
         if (theList) {
             Node *tmp = theList;
             theList = theList->next;
