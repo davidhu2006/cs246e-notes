@@ -173,8 +173,8 @@ void uninitialized_copy_or_move(T *start, T *finish, T *source) {
         for (p = start; p != finish; ++p, ++source) {
             new(p) T{std::move_if_noexcept(*p)};
         }
-    } catch(...) {//will nevery happen if T has a non-throwing move constructor
-        for(;p!=start;--p) (source+(p-start-1)->~T();
+    } catch(...) {//will never happen if T has a non-throwing move constructor
+        for(;p!=start;--p) (source+(p-start-1)->~T());
     }
 }
 ```

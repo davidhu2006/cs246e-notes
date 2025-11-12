@@ -52,7 +52,7 @@ class string{
         ...
 }
 ```
-For this to work, the char* must be null-terminated. Se we still need `theString[length]=='\0'` even though we don't need this condition to determine length.
+For this to work, the char* must be null-terminated. So we still need `theString[length]=='\0'` even though we don't need this condition to determine length.
 
 **Note:** if our string does contain `'\0`'s(not as terminators), the char* returned by c.str will be interpreted as ending at the first `'\0'`
 
@@ -78,7 +78,7 @@ else if(s1==s2){...}//2 linear scans. Mostly the same operation done twice
 else {...}
 ```
 If we want to compete with C, we need a 3-valued comparison operation: `operator<=>`
-The standard provides a class `std::strong-ordering` and constants `std::strong-ordering{less, equal, greater}` that we can use as the result of comparison.
+The standard provides a class `std::strong_ordering` and constants `std::strong_ordering{less, equal, greater}` that we can use as the result of comparison.
 These constants compare, respectively, as {`<`, `==`, `>`} 0
 
 By default, `<=>` does lexicographical comparison for free, if you ask for it:
@@ -86,14 +86,14 @@ By default, `<=>` does lexicographical comparison for free, if you ask for it:
 class Vec{
     int x, y;
     public:
-        std::strong-ordering operator<=>(const Vec &other)const = default;
+        std::strong_ordering operator<=>(const Vec &other)const = default;
 }
 ```
 Or we could write it ourselves:
 ```C++
 class Vec{
     ...
-    std::strong-ordering operator<=>(const Vec &other)const {
+    std::strong_ordering operator<=>(const Vec &other)const {
         auto n=x<=>other.x;
         return (n==0)? y<=>other.y:n;//equivalent to default
     }
@@ -103,7 +103,7 @@ But for string, the default will do pointer comparison on `theString`, so we nee
 ```C++
 class string{
     ...
-    std::strong-ordering operator<=>(const string &other)const {
+    std::strong_ordering operator<=>(const string &other)const {
         for(size_t i=0;i<min(length, other.length);++i){
             if(theString[i]!=other.theString[i])
                 return theString[i]<=>other.theString[i];
@@ -400,10 +400,10 @@ Consider: composing multiple functions on some input
 e.g. `filter+transform`(say take all the odd numbers and square them)
 ```C++
 auto odd=[](int n){return n%2!=0;};
-auto sqr=[(int n){return n*n;};
+auto sqr=[](int n){return n*n;};
 
 vector v{...};//contains something
-vector<int> w(v.size(), x(v.size());
+vector<int> w(v.size()), x(v.size());
 copy-if(v.begin(), v.end(), w.begin(), odd);//copy-if by import<algorithm>
 transform(w.begin, w.end(), x.begin(), sqr);
 ```

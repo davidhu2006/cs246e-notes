@@ -130,8 +130,7 @@ class D {
                 throw something {};
             }
         }
-    }
-} 
+}
 ```
 
 What happens if a destructor throws? 

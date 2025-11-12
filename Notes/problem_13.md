@@ -72,7 +72,8 @@ template<typename T> class vector {
         void clear() {
             // doing --n here is kinda sus but I guess it's fine because we don't use n anymore
             while (n) {
-                pop_back;
+                pop_back();
+                --n;
             }
         }
         ~vector() {

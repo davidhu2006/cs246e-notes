@@ -1,7 +1,46 @@
 [A big unit on Object Oriented Design <<](./object_oriented_design.md) | [**Home**](../README.md) | [>> Abstraction over Iterators](./problem_25.md)
 
-# Problem 24: Shared Ownership
-## **2021-11-16**
+# Problem 27: In chiech we challenge Problem 26
+## **2025-11-11**
+
+Is `dynamic_cast` really bad style?
+Where have we used it?
+- `WhatIsIt`, breaks if we add more types
+- `virtual operator=` doesn't, only compare to your own types, not all types in the hierarchy. It was ok.
+
+how might we fix `WhatIsIt`? Could have written a virtual method.
+```C++
+class Book{
+    virtual void identify(){
+        cout<<"Book";
+    }
+};
+void WhatIsIt(Book *b){
+    if(b) b->identity();
+    else cout<<"Nothing";
+}
+```
+
+Works by creating an interface function that is uniform across all Book types.
+
+But what if the interface isn't uniform across all types in the hierarchy?
+
+Inheritance and virtual methods work well when
+- there is an unlimited number of potential specializations and a base abstraction
+- each following the same interface
+
+But what if you have the opposite case?
+- Small number of specializations, all known in advance, and unlikely to change
+- Different specializations might have different interfaces
+
+In the first case - adding a subclass is 0 effort
+In the second case - adding a subclass means work, but we are not expecting to do it. Or if we do, we expect the work
+
+
+
+
+
+
 
 Is C++ hard? (No, if you're a client programmer)
 
